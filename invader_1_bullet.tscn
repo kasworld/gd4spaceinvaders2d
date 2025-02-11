@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2bhqxhfw1hhx"]
+
+[ext_resource type="Script" path="res://invader_1_bullet.gd" id="1_3qcmf"]
+[ext_resource type="Texture2D" uid="uid://1evsfjnytg80" path="res://assets/invader1_bullet.png" id="1_fn0ar"]
+
+[node name="Invader1Bullet" type="Node2D"]
+script = ExtResource("1_3qcmf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_fn0ar")
