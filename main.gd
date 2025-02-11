@@ -2,13 +2,11 @@ extends Node2D
 
 var invader_scene = preload("res://invader.tscn")
 var bullet_scene = preload("res://bullet.tscn")
-var invader_explod_scene = preload("res://invader_explode.tscn")
+var explod_scene = preload("res://explode.tscn")
 
 var fighter_scene = preload("res://fighter.tscn")
-var fighter_explode_scene = preload("res://fighter_explode.tscn")
 
 var ufo_scene = preload("res://ufo.tscn")
-var ufo_explode_scene = preload("res://ufo_explode.tscn")
 
 
 var inv1 : Invader
