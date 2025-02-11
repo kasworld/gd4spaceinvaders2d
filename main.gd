@@ -1,7 +1,8 @@
 extends Node2D
 
 var invader_scene = preload("res://invader.tscn")
-var invaderbullet_scene = preload("res://invader_bullet.tscn")
+var invader_bullet_scene = preload("res://invader_bullet.tscn")
+var invader_explod_scene = preload("res://invader_explode.tscn")
 
 var fighter_scene = preload("res://fighter.tscn")
 var fighter_bullet_scene = preload("res://fighter_bullet.tscn")
@@ -18,11 +19,11 @@ var vp_size :Vector2
 func _ready() -> void:
 	vp_size = get_viewport_rect().size
 
-	inv1 = invader_scene.instantiate().set_type(Invader.InvaderType.Invader1)
+	inv1 = invader_scene.instantiate().set_type(Invader.Type.Invader1)
 	add_child(inv1)
 	inv1.position = vp_size *0.3
 
-	bul1 = invaderbullet_scene.instantiate().set_type(Invader.InvaderType.Invader1)
+	bul1 = invader_bullet_scene.instantiate().set_type(Invader.Type.Invader1)
 	add_child(bul1)
 	bul1.position = vp_size * 0.6
 

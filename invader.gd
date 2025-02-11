@@ -1,18 +1,18 @@
 extends Node2D
 class_name Invader
 
-enum InvaderType {Invader1,Invader2,Invader3}
+enum Type {Invader1,Invader2,Invader3}
 
-var invader_type : InvaderType
+var invader_type : Type
 
-func set_type(t : InvaderType) -> Invader:
+func set_type(t : Type) -> Invader:
 	invader_type = t
 	match invader_type:
-		InvaderType.Invader1:
+		Type.Invader1:
 			$AnimatedSprite2D.sprite_frames = preload("res://invader_1_sprite_frame.tres")
-		InvaderType.Invader2:
+		Type.Invader2:
 			$AnimatedSprite2D.sprite_frames = preload("res://invader_2_sprite_frame.tres")
-		InvaderType.Invader3:
+		Type.Invader3:
 			$AnimatedSprite2D.sprite_frames = preload("res://invader_3_sprite_frame.tres")
 		_ :
 			print_debug("invalid invader type ", invader_type)
