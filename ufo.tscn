@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwbcb8kpfjdoy"]
+
+[ext_resource type="Script" path="res://ufo.gd" id="1_ktv13"]
+[ext_resource type="Texture2D" uid="uid://d4e8bwcy3dy0a" path="res://assets/ufo.png" id="2_fse7a"]
+
+[node name="UFO" type="Node2D"]
+script = ExtResource("1_ktv13")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_fse7a")

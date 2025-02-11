@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://6w74y0p45b8"]
+
+[ext_resource type="Script" path="res://invader_2.gd" id="1_7kj2s"]
+[ext_resource type="Texture2D" uid="uid://3xe4vithtm5y" path="res://assets/invader2_1.png" id="1_u1bxy"]
+[ext_resource type="Texture2D" uid="uid://b5ocxxd61rsip" path="res://assets/invader2_2.png" id="2_bhj1p"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s7xi2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_u1bxy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_bhj1p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Invader2" type="Node2D"]
+script = ExtResource("1_7kj2s")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_s7xi2")
