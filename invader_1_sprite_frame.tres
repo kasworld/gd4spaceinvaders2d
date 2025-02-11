@@ -1,0 +1,18 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://ycnxnjly8vko"]
+
+[ext_resource type="Texture2D" uid="uid://dxaerskhkhj3c" path="res://assets/invader1_1.png" id="1_pk0xj"]
+[ext_resource type="Texture2D" uid="uid://c6b5p0sm8gasm" path="res://assets/invader1_2.png" id="2_k28a8"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_pk0xj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_k28a8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
