@@ -21,6 +21,17 @@ func set_type(t : Type) -> Invader:
 func get_type() -> Type:
 	return invader_type
 
+func get_bullet_type() -> Bullet.Type:
+	match invader_type:
+		Type.Invader1:
+			return Bullet.Type.Invader1
+		Type.Invader2:
+			return Bullet.Type.Invader2
+		Type.Invader3:
+			return Bullet.Type.Invader3
+	print_debug("something wrong ", invader_type)
+	return 0
+
 func set_color(co :Color) -> void:
 	$AnimatedSprite2D.self_modulate = co
 

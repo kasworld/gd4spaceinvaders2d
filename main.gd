@@ -7,7 +7,6 @@ var fighter_scene = preload("res://fighter.tscn")
 var ufo_scene = preload("res://ufo.tscn")
 
 var invader_list := []
-var bullet_list := []
 var explode_list := []
 var ufo :UFO
 var fighter :Fighter
@@ -45,16 +44,6 @@ func _ready() -> void:
 	add_child(fighter)
 	fighter.position = Vector2( (5) * gridsize.x, gridsize.y * (10) )
 
-	bullet_list.append(bullet_scene.instantiate().set_type(Bullet.Type.Invader1) )
-	bullet_list.append(bullet_scene.instantiate().set_type(Bullet.Type.Invader2) )
-	bullet_list.append(bullet_scene.instantiate().set_type(Bullet.Type.Invader3) )
-	bullet_list.append(bullet_scene.instantiate().set_type(Bullet.Type.UFO) )
-	bullet_list.append(bullet_scene.instantiate().set_type(Bullet.Type.Fighter) )
-	for o in bullet_list:
-		add_child(o)
-		o.position = Vector2( randf_range(0,vp_size.x), randf_range(0,vp_size.y))
-
-
 	explode_list.append(explode_scene.instantiate().set_type(Explode.Type.Invader) )
 	explode_list.append(explode_scene.instantiate().set_type(Explode.Type.UFO) )
 	explode_list.append(explode_scene.instantiate().set_type(Explode.Type.Fighter) )
@@ -62,13 +51,33 @@ func _ready() -> void:
 		add_child(o)
 		o.position = Vector2( randf_range(0,vp_size.x), randf_range(0,vp_size.y))
 
-var inv_num := 0
 func _process(delta: float) -> void:
 	move_UFO()
+	move_bullets()
+	move_invaders()
 
+var inv_num := 0
+func move_invaders() ->void:
 	change_frame_color(invader_list[inv_num])
+	if randi_range(0, 100) == 0:
+		var o = invader_list[inv_num]
+		new_bullet(o.get_bullet_type(), o.position )
 	inv_num += 1
 	inv_num %= invader_list.size()
+
+func new_bullet(t :Bullet.Type, p :Vector2) -> void:
+	var o = bullet_scene.instantiate().set_type(t)
+	$Bullets.add_child(o)
+	o.position = p
+
+func add_fighter_bullet() -> void:
+	new_bullet(Bullet.Type.Fighter, fighter.position )
+
+func move_bullets() -> void:
+	for o in $Bullets.get_children():
+		o.position += o.get_move_vector()
+		if not get_viewport_rect().has_point(o.position):
+			$Bullets.remove_child(o)
 
 func new_UFO() -> void:
 	if ufo != null:
@@ -98,6 +107,8 @@ func move_UFO() -> void:
 	ufo.position += ufo.get_move_vector()
 	if not get_viewport_rect().has_point(ufo.position):
 		del_UFO()
+	elif randi_range(0, 100) == 0:
+		new_bullet(Bullet.Type.UFO, ufo.position )
 
 func change_frame_color(o) -> void:
 	if o == null:
@@ -109,7 +120,6 @@ func _on_timer_timeout() -> void:
 	change_frame_color(ufo)
 	change_frame_color(fighter)
 
-
 # esc to exit
 func _unhandled_input(event: InputEvent) -> void:
 	var vp_size = get_viewport_rect().size
@@ -119,7 +129,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.keycode == KEY_ENTER:
 			pass
 		elif event.keycode == KEY_SPACE:
-			pass
+			add_fighter_bullet()
 		elif event.keycode == KEY_LEFT:
 			fighter.position.x -= 8
 			if fighter.position.x < 0:
