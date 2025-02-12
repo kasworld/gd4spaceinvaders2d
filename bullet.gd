@@ -28,6 +28,9 @@ func get_type() -> Type:
 func set_color(co :Color) -> void:
 	$Sprite2D.self_modulate = co
 
+func get_color() -> Color:
+	return $Sprite2D.self_modulate
+
 func next_frame() -> void:
 	$Sprite2D.flip_h = not $Sprite2D.flip_h
 

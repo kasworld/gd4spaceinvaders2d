@@ -35,5 +35,9 @@ func get_bullet_type() -> Bullet.Type:
 func set_color(co :Color) -> void:
 	$AnimatedSprite2D.self_modulate = co
 
+func get_color() -> Color:
+	return $AnimatedSprite2D.self_modulate
+
+
 func next_frame() -> void:
 	$AnimatedSprite2D.frame = ($AnimatedSprite2D.frame +1) % $AnimatedSprite2D.sprite_frames.get_frame_count("default")

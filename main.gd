@@ -61,17 +61,18 @@ func move_invaders() ->void:
 	change_frame_color(invader_list[inv_num])
 	if randi_range(0, 100) == 0:
 		var o = invader_list[inv_num]
-		new_bullet(o.get_bullet_type(), o.position )
+		new_bullet(o.get_bullet_type(), o.position ).set_color(o.get_color())
 	inv_num += 1
 	inv_num %= invader_list.size()
 
-func new_bullet(t :Bullet.Type, p :Vector2) -> void:
+func new_bullet(t :Bullet.Type, p :Vector2) -> Bullet:
 	var o = bullet_scene.instantiate().set_type(t)
 	$Bullets.add_child(o)
 	o.position = p
+	return o
 
 func add_fighter_bullet() -> void:
-	new_bullet(Bullet.Type.Fighter, fighter.position )
+	new_bullet(Bullet.Type.Fighter, fighter.position ).set_color(fighter.get_color())
 
 func move_bullets() -> void:
 	for o in $Bullets.get_children():
@@ -108,7 +109,7 @@ func move_UFO() -> void:
 	if not get_viewport_rect().has_point(ufo.position):
 		del_UFO()
 	elif randi_range(0, 100) == 0:
-		new_bullet(Bullet.Type.UFO, ufo.position )
+		new_bullet(Bullet.Type.UFO, ufo.position ).set_color(ufo.get_color())
 
 func change_frame_color(o) -> void:
 	if o == null:
