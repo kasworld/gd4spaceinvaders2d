@@ -16,3 +16,6 @@ func set_move_vector( vt :Vector2 ) -> void:
 
 func get_move_vector() -> Vector2:
 	return move_vector
+
+func _on_timer_timeout() -> void:
+	set_color(NamedColorList.color_list.pick_random()[0])

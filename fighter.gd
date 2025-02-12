@@ -10,3 +10,6 @@ func get_color() -> Color:
 
 func next_frame() -> void:
 	pass
+
+func _on_timer_timeout() -> void:
+	set_color(NamedColorList.color_list.pick_random()[0])

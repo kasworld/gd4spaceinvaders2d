@@ -5,7 +5,7 @@ enum Type {Invader1,Invader2,Invader3,UFO,Fighter}
 
 var bullet_type : Type
 
-func set_type(t : Type) -> Bullet:
+func init(t : Type) -> Bullet:
 	bullet_type = t
 	match bullet_type:
 		Type.Invader1:
@@ -45,3 +45,6 @@ func get_move_vector() -> Vector2:
 		_ :
 			print_debug("invalid bullet type ", bullet_type)
 	return Vector2.ZERO
+
+func _on_timer_timeout() -> void:
+	next_frame()

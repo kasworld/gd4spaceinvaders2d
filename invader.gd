@@ -5,7 +5,7 @@ enum Type {Invader1,Invader2,Invader3}
 
 var invader_type : Type
 
-func set_type(t : Type) -> Invader:
+func init(t : Type) -> Invader:
 	invader_type = t
 	match invader_type:
 		Type.Invader1:
@@ -38,6 +38,9 @@ func set_color(co :Color) -> void:
 func get_color() -> Color:
 	return $AnimatedSprite2D.self_modulate
 
-
 func next_frame() -> void:
 	$AnimatedSprite2D.frame = ($AnimatedSprite2D.frame +1) % $AnimatedSprite2D.sprite_frames.get_frame_count("default")
+	set_color(NamedColorList.color_list.pick_random()[0])
+
+func _on_timer_timeout() -> void:
+	next_frame()

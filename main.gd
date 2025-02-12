@@ -19,21 +19,21 @@ func _ready() -> void:
 	var gridsize = get_gridsize(vp_size)
 
 	for i in 11:
-		var o = invader_scene.instantiate().set_type(Invader.Type.Invader3)
+		var o = invader_scene.instantiate().init(Invader.Type.Invader3)
 		add_child(o)
 		invader_list.append(o)
 		o.position = Vector2( (i+1) * gridsize.x, gridsize.y * 2)
 
 	for j in 2:
 		for i in 11:
-			var o = invader_scene.instantiate().set_type(Invader.Type.Invader2)
+			var o = invader_scene.instantiate().init(Invader.Type.Invader2)
 			add_child(o)
 			invader_list.append(o)
 			o.position = Vector2( (i+1) * gridsize.x, gridsize.y * (j+3) )
 
 	for j in 2:
 		for i in 11:
-			var o = invader_scene.instantiate().set_type(Invader.Type.Invader1)
+			var o = invader_scene.instantiate().init(Invader.Type.Invader1)
 			add_child(o)
 			invader_list.append(o)
 			o.position = Vector2( (i+1) * gridsize.x, gridsize.y * (j+5) )
@@ -44,9 +44,9 @@ func _ready() -> void:
 	add_child(fighter)
 	fighter.position = Vector2( (5) * gridsize.x, gridsize.y * (10) )
 
-	explode_list.append(explode_scene.instantiate().set_type(Explode.Type.Invader) )
-	explode_list.append(explode_scene.instantiate().set_type(Explode.Type.UFO) )
-	explode_list.append(explode_scene.instantiate().set_type(Explode.Type.Fighter) )
+	explode_list.append(explode_scene.instantiate().init(Explode.Type.Invader) )
+	explode_list.append(explode_scene.instantiate().init(Explode.Type.UFO) )
+	explode_list.append(explode_scene.instantiate().init(Explode.Type.Fighter) )
 	for o in explode_list:
 		add_child(o)
 		o.position = Vector2( randf_range(0,vp_size.x), randf_range(0,vp_size.y))
@@ -62,8 +62,8 @@ var inv_mv_vt = [Vector2(20,0),Vector2(0,20),Vector2(-20,0),Vector2(0,-20)]
 var inv_mv_num := 0
 func move_invaders() -> void:
 	var o = invader_list[inv_num]
-	change_frame_color(o)
 	o.position += inv_mv_vt[inv_mv_num]
+	o.next_frame()
 	if randi_range(0, 100) == 0:
 		new_bullet(o.get_bullet_type(), o.position ).set_color(o.get_color())
 	inv_num += 1
@@ -74,7 +74,7 @@ func move_invaders() -> void:
 		inv_mv_num %= inv_mv_vt.size()
 
 func new_bullet(t :Bullet.Type, p :Vector2) -> Bullet:
-	var o = bullet_scene.instantiate().set_type(t)
+	var o = bullet_scene.instantiate().init(t)
 	$Bullets.add_child(o)
 	o.position = p
 	return o
@@ -118,18 +118,6 @@ func move_UFO() -> void:
 		del_UFO()
 	elif randi_range(0, 100) == 0:
 		new_bullet(Bullet.Type.UFO, ufo.position ).set_color(ufo.get_color())
-
-func change_frame_color(o) -> void:
-	if o == null:
-		return
-	o.next_frame()
-	o.set_color(NamedColorList.color_list.pick_random()[0])
-
-func _on_timer_timeout() -> void:
-	change_frame_color(ufo)
-	change_frame_color(fighter)
-	for o in $Bullets.get_children():
-		o.next_frame()
 
 # esc to exit
 func _unhandled_input(event: InputEvent) -> void:

@@ -5,7 +5,7 @@ enum Type {Invader,UFO,Fighter}
 
 var explode_type : Type
 
-func set_type(t : Type) -> Explode:
+func init(t : Type) -> Explode:
 	explode_type = t
 	match explode_type:
 		Type.Invader:
