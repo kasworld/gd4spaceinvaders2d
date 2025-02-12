@@ -6,4 +6,4 @@
 script = ExtResource("1_s4vy7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(4, 4)
+scale = Vector2(2, 2)

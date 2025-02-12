@@ -18,6 +18,9 @@ func set_type(t : Type) -> Invader:
 			print_debug("invalid invader type ", invader_type)
 	return self
 
+func get_type() -> Type:
+	return invader_type
+
 func set_color(co :Color) -> void:
 	$AnimatedSprite2D.self_modulate = co
 

@@ -18,6 +18,10 @@ func set_type(t : Type) -> Explode:
 			print_debug("invalid explode type ", explode_type)
 	return self
 
+func get_type() -> Type:
+	return explode_type
+
+
 func set_color(co :Color) -> void:
 	$Sprite2D.self_modulate = co
 
