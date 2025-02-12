@@ -40,3 +40,4 @@ func _process(delta: float) -> void:
 func _on_timer_timeout() -> void:
 	for o in obj_list:
 		o.next_frame()
+		o.set_color(NamedColorList.color_list.pick_random()[0])

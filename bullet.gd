@@ -22,5 +22,8 @@ func set_type(t : Type) -> Bullet:
 			print_debug("invalid bullet type ", bullet_type)
 	return self
 
+func set_color(co :Color) -> void:
+	$Sprite2D.self_modulate = co
+
 func next_frame() -> void:
 	$Sprite2D.flip_h = not $Sprite2D.flip_h

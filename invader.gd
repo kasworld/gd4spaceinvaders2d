@@ -18,5 +18,8 @@ func set_type(t : Type) -> Invader:
 			print_debug("invalid invader type ", invader_type)
 	return self
 
+func set_color(co :Color) -> void:
+	$AnimatedSprite2D.self_modulate = co
+
 func next_frame() -> void:
 	$AnimatedSprite2D.frame = ($AnimatedSprite2D.frame +1) % $AnimatedSprite2D.sprite_frames.get_frame_count("default")
