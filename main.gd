@@ -24,15 +24,15 @@ func _ready() -> void:
 		invader_list.append(o)
 		o.position = Vector2( (i+1) * gridsize.x, gridsize.y * 2)
 
-	for i in 11:
-		for j in 2:
+	for j in 2:
+		for i in 11:
 			var o = invader_scene.instantiate().set_type(Invader.Type.Invader2)
 			add_child(o)
 			invader_list.append(o)
 			o.position = Vector2( (i+1) * gridsize.x, gridsize.y * (j+3) )
 
-	for i in 11:
-		for j in 2:
+	for j in 2:
+		for i in 11:
 			var o = invader_scene.instantiate().set_type(Invader.Type.Invader1)
 			add_child(o)
 			invader_list.append(o)
@@ -57,13 +57,20 @@ func _process(delta: float) -> void:
 	move_invaders()
 
 var inv_num := 0
-func move_invaders() ->void:
-	change_frame_color(invader_list[inv_num])
+var inv_mv_vt = [Vector2(20,0),Vector2(0,20),Vector2(-20,0),Vector2(0,-20)]
+var inv_mv_num := 0
+func move_invaders() -> void:
+	var o = invader_list[inv_num]
+	change_frame_color(o)
+	o.position += inv_mv_vt[inv_mv_num]
 	if randi_range(0, 100) == 0:
-		var o = invader_list[inv_num]
 		new_bullet(o.get_bullet_type(), o.position ).set_color(o.get_color())
 	inv_num += 1
-	inv_num %= invader_list.size()
+	if inv_num >= invader_list.size():
+		inv_num = 0
+		# change move vector
+		inv_mv_num +=1
+		inv_mv_num %= inv_mv_vt.size()
 
 func new_bullet(t :Bullet.Type, p :Vector2) -> Bullet:
 	var o = bullet_scene.instantiate().set_type(t)
