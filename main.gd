@@ -44,12 +44,20 @@ func _ready() -> void:
 	add_child(fighter)
 	fighter.position = Vector2( (5) * gridsize.x, gridsize.y * (10) )
 
-	explode_list.append(explode_scene.instantiate().init(Explode.Type.Invader) )
-	explode_list.append(explode_scene.instantiate().init(Explode.Type.UFO) )
-	explode_list.append(explode_scene.instantiate().init(Explode.Type.Fighter) )
-	for o in explode_list:
-		add_child(o)
-		o.position = Vector2( randf_range(0,vp_size.x), randf_range(0,vp_size.y))
+	var o = explode_scene.instantiate().init(Explode.Type.Invader)
+	o.position = Vector2( randf_range(0,vp_size.x), randf_range(0,vp_size.y) )
+	explode_list.append(o)
+	add_child(o)
+
+	o = explode_scene.instantiate().init(Explode.Type.UFO)
+	o.position = Vector2( (5) * gridsize.x, gridsize.y  )
+	explode_list.append(o)
+	add_child(o)
+
+	o = explode_scene.instantiate().init(Explode.Type.Fighter)
+	o.position = Vector2( (7) * gridsize.x, gridsize.y * (10) )
+	explode_list.append(o)
+	add_child(o)
 
 func _process(delta: float) -> void:
 	move_UFO()
