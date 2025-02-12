@@ -8,16 +8,44 @@ var ufo_scene = preload("res://ufo.tscn")
 
 var vp_size :Vector2
 var obj_list := []
+var invader_list := []
 
 func _ready() -> void:
 	vp_size = get_viewport_rect().size
 
-	add_obj(invader_scene.instantiate().set_type(Invader.Type.Invader1) )
-	add_obj(invader_scene.instantiate().set_type(Invader.Type.Invader2) )
-	add_obj(invader_scene.instantiate().set_type(Invader.Type.Invader3) )
+	var inv_w = vp_size.x / 13
+	var inv_h = vp_size.y / 12
+	for i in 11:
+		var o = invader_scene.instantiate().set_type(Invader.Type.Invader3)
+		add_child(o)
+		invader_list.append(o)
+		o.position = Vector2( (i+1) * inv_w, inv_h * 2)
 
-	add_obj(fighter_scene.instantiate())
-	add_obj(ufo_scene.instantiate())
+	for i in 11:
+		for j in 2:
+			var o = invader_scene.instantiate().set_type(Invader.Type.Invader2)
+			add_child(o)
+			invader_list.append(o)
+			o.position = Vector2( (i+1) * inv_w, inv_h * (j+3) )
+
+	for i in 11:
+		for j in 2:
+			var o = invader_scene.instantiate().set_type(Invader.Type.Invader1)
+			add_child(o)
+			invader_list.append(o)
+			o.position = Vector2( (i+1) * inv_w, inv_h * (j+5) )
+
+	var o = ufo_scene.instantiate()
+	add_child(o)
+	obj_list.append(o)
+	o.position = Vector2( (4) * inv_w, inv_h * (1) )
+
+	o = fighter_scene.instantiate()
+	add_child(o)
+	obj_list.append(o)
+	o.position = Vector2( (5) * inv_w, inv_h * (10) )
+
+
 
 	add_obj(bullet_scene.instantiate().set_type(Bullet.Type.Invader1) )
 	add_obj(bullet_scene.instantiate().set_type(Bullet.Type.Invader2) )
@@ -39,5 +67,9 @@ func _process(delta: float) -> void:
 
 func _on_timer_timeout() -> void:
 	for o in obj_list:
+		o.next_frame()
+		o.set_color(NamedColorList.color_list.pick_random()[0])
+
+	for o in invader_list:
 		o.next_frame()
 		o.set_color(NamedColorList.color_list.pick_random()[0])
