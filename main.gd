@@ -9,6 +9,8 @@ var ufo_scene = preload("res://ufo.tscn")
 var vp_size :Vector2
 var obj_list := []
 var invader_list := []
+var ufo :UFO
+var fighter :Fighter
 
 func _ready() -> void:
 	vp_size = get_viewport_rect().size
@@ -39,13 +41,13 @@ func _ready() -> void:
 	add_child(o)
 	obj_list.append(o)
 	o.position = Vector2( (4) * inv_w, inv_h * (1) )
+	ufo = o
 
 	o = fighter_scene.instantiate()
 	add_child(o)
 	obj_list.append(o)
 	o.position = Vector2( (5) * inv_w, inv_h * (10) )
-
-
+	fighter = o
 
 	add_obj(bullet_scene.instantiate().set_type(Bullet.Type.Invader1) )
 	add_obj(bullet_scene.instantiate().set_type(Bullet.Type.Invader2) )
@@ -63,7 +65,9 @@ func add_obj(o ) -> void:
 	obj_list.append(o)
 
 func _process(delta: float) -> void:
-	pass
+	ufo.position.x += 3
+	if ufo.position.x > vp_size.x:
+		ufo.position.x = 0
 
 func _on_timer_timeout() -> void:
 	for o in obj_list:
@@ -73,3 +77,21 @@ func _on_timer_timeout() -> void:
 	for o in invader_list:
 		o.next_frame()
 		o.set_color(NamedColorList.color_list.pick_random()[0])
+
+# esc to exit
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_ESCAPE:
+			get_tree().quit()
+		elif event.keycode == KEY_ENTER:
+			pass
+		elif event.keycode == KEY_SPACE:
+			pass
+		elif event.keycode == KEY_LEFT:
+			fighter.position.x -= 8
+			if fighter.position.x < 0:
+				fighter.position.x = 0
+		elif event.keycode == KEY_RIGHT:
+			fighter.position.x += 8
+			if fighter.position.x > vp_size.x:
+				fighter.position.x = vp_size.x
