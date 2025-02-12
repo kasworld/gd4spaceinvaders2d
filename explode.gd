@@ -17,3 +17,6 @@ func set_type(t : Type) -> Explode:
 		_ :
 			print_debug("invalid explode type ", explode_type)
 	return self
+
+func next_frame() -> void:
+	$Sprite2D.flip_h = not $Sprite2D.flip_h
