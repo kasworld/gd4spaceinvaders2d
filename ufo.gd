@@ -6,3 +6,10 @@ func set_color(co :Color) -> void:
 
 func next_frame() -> void:
 	pass
+
+var move_vector :Vector2
+func set_move_vector( vt :Vector2 ) -> void:
+	move_vector = vt
+
+func get_move_vector() -> Vector2:
+	return move_vector

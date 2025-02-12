@@ -30,3 +30,15 @@ func set_color(co :Color) -> void:
 
 func next_frame() -> void:
 	$Sprite2D.flip_h = not $Sprite2D.flip_h
+
+func get_move_vector() -> Vector2:
+	match bullet_type:
+		Type.Invader1, Type.Invader2, Type.Invader3, Type.UFO:
+			# move downward
+			return Vector2(0,1)
+		Type.Fighter:
+			# move upward
+			return Vector2(0,-1)
+		_ :
+			print_debug("invalid bullet type ", bullet_type)
+	return Vector2.ZERO
