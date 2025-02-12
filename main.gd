@@ -95,11 +95,12 @@ func new_UFO() -> void:
 	var gridsize = get_gridsize(vp_size)
 	ufo = ufo_scene.instantiate()
 	add_child(ufo)
+	var mv_speed = [3,10].pick_random()
 	if randi_range(0, 1) == 0:
-		ufo.set_move_vector(Vector2(3,0))
+		ufo.set_move_vector(Vector2(mv_speed,0))
 		ufo.position = Vector2( 0, gridsize.y)
 	else :
-		ufo.set_move_vector(Vector2(-3,0))
+		ufo.set_move_vector(Vector2(-mv_speed,0))
 		ufo.position = Vector2( vp_size.x, gridsize.y)
 
 func del_UFO() -> void:
@@ -127,6 +128,8 @@ func change_frame_color(o) -> void:
 func _on_timer_timeout() -> void:
 	change_frame_color(ufo)
 	change_frame_color(fighter)
+	for o in $Bullets.get_children():
+		o.next_frame()
 
 # esc to exit
 func _unhandled_input(event: InputEvent) -> void:
