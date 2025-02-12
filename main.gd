@@ -55,6 +55,7 @@ func _process(delta: float) -> void:
 	move_UFO()
 	move_bullets()
 	move_invaders()
+	move_fighter()
 
 var inv_num := 0
 var inv_mv_vt = [Vector2(20,0),Vector2(0,20),Vector2(-20,0),Vector2(0,-20)]
@@ -111,7 +112,6 @@ func del_UFO() -> void:
 func move_UFO() -> void:
 	if ufo == null :
 		return
-	var vp_size = get_viewport_rect().size
 	ufo.position += ufo.get_move_vector()
 	if not get_viewport_rect().has_point(ufo.position):
 		del_UFO()
@@ -130,8 +130,7 @@ func _on_timer_timeout() -> void:
 
 # esc to exit
 func _unhandled_input(event: InputEvent) -> void:
-	var vp_size = get_viewport_rect().size
-	if event is InputEventKey and event.pressed:
+	if event is InputEventKey and event.is_pressed():
 		if event.keycode == KEY_ESCAPE:
 			get_tree().quit()
 		elif event.keycode == KEY_ENTER:
@@ -139,10 +138,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.keycode == KEY_SPACE:
 			add_fighter_bullet()
 		elif event.keycode == KEY_LEFT:
-			fighter.position.x -= 8
-			if fighter.position.x < 0:
-				fighter.position.x = 0
+			fighter_mv_vt = Vector2(-8,0)
 		elif event.keycode == KEY_RIGHT:
-			fighter.position.x += 8
-			if fighter.position.x > vp_size.x:
-				fighter.position.x = vp_size.x
+			fighter_mv_vt = Vector2(8,0)
+	if event is InputEventKey and event.is_released():
+		if event.keycode == KEY_LEFT:
+			fighter_mv_vt = Vector2(0,0)
+		elif event.keycode == KEY_RIGHT:
+			fighter_mv_vt = Vector2(0,0)
+
+var fighter_mv_vt :Vector2
+func move_fighter() -> void:
+	fighter.position += fighter_mv_vt
+	if not get_viewport_rect().has_point(fighter.position):
+		fighter.position = fighter.position.clamp(Vector2.ZERO, get_viewport_rect().size)
