@@ -12,6 +12,7 @@ script = ExtResource("1_8or64")
 autostart = true
 
 [node name="GameField" type="Panel" parent="."]
+clip_contents = true
 theme_override_styles/panel = SubResource("StyleBoxFlat_4a43i")
 
 [node name="Bullets" type="Node2D" parent="GameField"]
