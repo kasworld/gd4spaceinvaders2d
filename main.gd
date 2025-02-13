@@ -26,6 +26,8 @@ func _ready() -> void:
 	$GameField.position = Vector2(0,0)
 	$GameField.size = gamefield_size
 	var gridsize = get_gridsize()
+	$UI.position = Vector2(gamefield_size.x,0)
+	$UI.size = Vector2(vp_size.x - gamefield_size.x, vp_size.y)
 
 	var mv_vt = Vector2(20,20)
 	Invader.set_move_vector(mv_vt)
