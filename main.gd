@@ -7,8 +7,6 @@ const GridCount_Y = 12
 var invader_scene = preload("res://invader.tscn")
 var bullet_scene = preload("res://bullet.tscn")
 var explode_scene = preload("res://explode.tscn")
-var fighter_scene = preload("res://fighter.tscn")
-var ufo_scene = preload("res://ufo.tscn")
 
 var invader_list := []
 var explode_list := []
