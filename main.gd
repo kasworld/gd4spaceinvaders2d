@@ -1,5 +1,9 @@
 extends Node2D
 
+const InvaderCount_X = 11
+const GridCount_X = 13
+const GridCount_Y = 12
+
 var invader_scene = preload("res://invader.tscn")
 var bullet_scene = preload("res://bullet.tscn")
 var explode_scene = preload("res://explode.tscn")
@@ -11,54 +15,63 @@ var explode_list := []
 var ufo :UFO
 var fighter :Fighter
 
-func get_gridsize(vp_size :Vector2) -> Vector2:
-	return Vector2(vp_size.x / 13, vp_size.y / 12)
+var gamefield_size :Vector2
+func get_gamefield_rect() -> Rect2:
+	return Rect2(Vector2.ZERO, gamefield_size)
+func get_gridsize() -> Vector2:
+	return Vector2(gamefield_size.x / GridCount_X, gamefield_size.y / GridCount_Y)
+func calc_grid_position(x :float, y :float) -> Vector2:
+	var gridsize = get_gridsize()
+	return Vector2(x*gridsize.x,y*gridsize.y)
 
 func _ready() -> void:
 	var vp_size = get_viewport_rect().size
-	var gridsize = get_gridsize(vp_size)
+	gamefield_size = Vector2(vp_size.x*0.7,vp_size.y)
+	$GameField.position = Vector2(0,0)
+	$GameField.size = gamefield_size
+	var gridsize = get_gridsize()
 
 	var mv_vt = Vector2(20,20)
-	for i in 11:
+	for i in InvaderCount_X:
 		var o = invader_scene.instantiate().init(Invader.Type.Invader3,mv_vt)
-		add_child(o)
+		$GameField.add_child(o)
 		invader_list.append(o)
-		o.position = Vector2( (i+1) * gridsize.x, gridsize.y * 2)
+		o.position = calc_grid_position(i+1,2) #Vector2( (i+1) * gridsize.x, gridsize.y * 2)
 
 	for j in 2:
-		for i in 11:
+		for i in InvaderCount_X:
 			var o = invader_scene.instantiate().init(Invader.Type.Invader2,mv_vt)
-			add_child(o)
+			$GameField.add_child(o)
 			invader_list.append(o)
-			o.position = Vector2( (i+1) * gridsize.x, gridsize.y * (j+3) )
+			o.position = calc_grid_position(i+1,j+3) # Vector2( (i+1) * gridsize.x, gridsize.y * (j+3) )
 
 	for j in 2:
-		for i in 11:
+		for i in InvaderCount_X:
 			var o = invader_scene.instantiate().init(Invader.Type.Invader1,mv_vt)
-			add_child(o)
+			$GameField.add_child(o)
 			invader_list.append(o)
-			o.position = Vector2( (i+1) * gridsize.x, gridsize.y * (j+5) )
+			o.position = calc_grid_position(i+1,j+5) # Vector2( (i+1) * gridsize.x, gridsize.y * (j+5) )
 
 	new_UFO()
 
 	fighter = fighter_scene.instantiate()
-	add_child(fighter)
-	fighter.position = Vector2( (5) * gridsize.x, gridsize.y * (10) )
+	$GameField.add_child(fighter)
+	fighter.position = calc_grid_position(5,GridCount_Y-1) # Vector2( (5) * gridsize.x, gridsize.y * (GridCount_Y-1) )
 
 	var o = explode_scene.instantiate().init(Explode.Type.Invader)
-	o.position = Vector2( randf_range(0,vp_size.x), randf_range(0,vp_size.y) )
+	o.position = Vector2( randf_range(0,gamefield_size.x), randf_range(0,gamefield_size.y) )
 	explode_list.append(o)
-	add_child(o)
+	$GameField.add_child(o)
 
 	o = explode_scene.instantiate().init(Explode.Type.UFO)
-	o.position = Vector2( (5) * gridsize.x, gridsize.y  )
+	o.position = calc_grid_position(5,1) # Vector2( (5) * gridsize.x, gridsize.y  )
 	explode_list.append(o)
-	add_child(o)
+	$GameField.add_child(o)
 
 	o = explode_scene.instantiate().init(Explode.Type.Fighter)
-	o.position = Vector2( (7) * gridsize.x, gridsize.y * (10) )
+	o.position = calc_grid_position(7,GridCount_Y-1) # Vector2( (7) * gridsize.x, gridsize.y * (GridCount_Y-1) )
 	explode_list.append(o)
-	add_child(o)
+	$GameField.add_child(o)
 
 func _process(delta: float) -> void:
 	move_UFO()
@@ -82,7 +95,7 @@ func move_invaders() -> void:
 
 func new_bullet(t :Bullet.Type, p :Vector2) -> Bullet:
 	var o = bullet_scene.instantiate().init(t)
-	$Bullets.add_child(o)
+	$GameField/Bullets.add_child(o)
 	o.position = p
 	return o
 
@@ -90,30 +103,29 @@ func add_fighter_bullet() -> void:
 	new_bullet(Bullet.Type.Fighter, fighter.position ).set_color(fighter.get_color())
 
 func move_bullets() -> void:
-	for o in $Bullets.get_children():
+	for o in $GameField/Bullets.get_children():
 		o.position += o.get_move_vector()
-		if not get_viewport_rect().has_point(o.position):
-			$Bullets.remove_child(o)
+		if not get_gamefield_rect().has_point(o.position):
+			$GameField/Bullets.remove_child(o)
 
 func new_UFO() -> void:
 	if ufo != null:
 		return
-	var vp_size = get_viewport_rect().size
-	var gridsize = get_gridsize(vp_size)
+	var gridsize = get_gridsize()
 	ufo = ufo_scene.instantiate()
-	add_child(ufo)
+	$GameField.add_child(ufo)
 	var mv_speed = [3,10].pick_random()
 	if randi_range(0, 1) == 0:
 		ufo.set_move_vector(Vector2(mv_speed,0))
-		ufo.position = Vector2( 0, gridsize.y)
+		ufo.position = calc_grid_position(0,1) # Vector2( 0, gridsize.y)
 	else :
 		ufo.set_move_vector(Vector2(-mv_speed,0))
-		ufo.position = Vector2( vp_size.x, gridsize.y)
+		ufo.position = calc_grid_position( GridCount_X,1) # Vector2( gamefield_size.x, gridsize.y)
 
 func del_UFO() -> void:
 	if ufo == null:
 		return
-	remove_child(ufo)
+	$GameField.remove_child(ufo)
 	ufo = null
 	new_UFO.call_deferred()
 
@@ -121,7 +133,7 @@ func move_UFO() -> void:
 	if ufo == null :
 		return
 	ufo.position += ufo.get_move_vector()
-	if not get_viewport_rect().has_point(ufo.position):
+	if not get_gamefield_rect().has_point(ufo.position):
 		del_UFO()
 	elif randi_range(0, 100) == 0:
 		new_bullet(Bullet.Type.UFO, ufo.position ).set_color(ufo.get_color())
@@ -148,5 +160,5 @@ func _unhandled_input(event: InputEvent) -> void:
 var fighter_mv_vt :Vector2
 func move_fighter() -> void:
 	fighter.position += fighter_mv_vt
-	if not get_viewport_rect().has_point(fighter.position):
-		fighter.position = fighter.position.clamp(Vector2.ZERO, get_viewport_rect().size)
+	if not get_gamefield_rect().has_point(fighter.position):
+		fighter.position = fighter.position.clamp(Vector2.ZERO, gamefield_size)

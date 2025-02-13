@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://vndwtwcsdgv"]
+[gd_scene load_steps=3 format=3 uid="uid://vndwtwcsdgv"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_8or64"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4a43i"]
+bg_color = Color(0, 0, 0, 1)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_8or64")
@@ -8,4 +11,7 @@ script = ExtResource("1_8or64")
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
-[node name="Bullets" type="Node2D" parent="."]
+[node name="GameField" type="Panel" parent="."]
+theme_override_styles/panel = SubResource("StyleBoxFlat_4a43i")
+
+[node name="Bullets" type="Node2D" parent="GameField"]
