@@ -12,7 +12,6 @@ var ufo_scene = preload("res://ufo.tscn")
 
 var invader_list := []
 var explode_list := []
-var fighter :Fighter
 
 var gamefield_size :Vector2
 func get_gamefield_rect() -> Rect2:
@@ -53,9 +52,7 @@ func _ready() -> void:
 			invader_list.append(o)
 			o.position = calc_grid_position(i+1,j+5) # Vector2( (i+1) * gridsize.x, gridsize.y * (j+5) )
 
-	fighter = fighter_scene.instantiate()
-	$GameField.add_child(fighter)
-	fighter.position = calc_grid_position(5,GridCount_Y-1) # Vector2( (5) * gridsize.x, gridsize.y * (GridCount_Y-1) )
+	$GameField/Fighter.position = calc_grid_position(5,GridCount_Y-1) # Vector2( (5) * gridsize.x, gridsize.y * (GridCount_Y-1) )
 
 	var o = explode_scene.instantiate().init(Explode.Type.Invader)
 	o.position = Vector2( randf_range(0,gamefield_size.x), randf_range(0,gamefield_size.y) )
@@ -102,7 +99,7 @@ func new_bullet(t :Bullet.Type, p :Vector2) -> Bullet:
 	return o
 
 func add_fighter_bullet() -> void:
-	new_bullet(Bullet.Type.Fighter, fighter.position ).set_color(fighter.get_color())
+	new_bullet(Bullet.Type.Fighter, $GameField/Fighter.position ).set_color($GameField/Fighter.get_color())
 
 func move_bullets() -> void:
 	for o in $GameField/Bullets.get_children():
@@ -152,6 +149,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 var fighter_mv_vt :Vector2
 func move_fighter() -> void:
-	fighter.position += fighter_mv_vt
-	if not get_gamefield_rect().has_point(fighter.position):
-		fighter.position = fighter.position.clamp(Vector2.ZERO, gamefield_size)
+	$GameField/Fighter.position += fighter_mv_vt
+	if not get_gamefield_rect().has_point($GameField/Fighter.position):
+		$GameField/Fighter.position = $GameField/Fighter.position.clamp(Vector2.ZERO, gamefield_size)
