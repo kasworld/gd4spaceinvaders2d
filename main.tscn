@@ -27,6 +27,8 @@ visible = false
 
 [node name="Fighter" parent="GameField" instance=ExtResource("3_yb8rn")]
 
+[node name="Explodes" type="Node2D" parent="GameField"]
+
 [node name="UI" type="VBoxContainer" parent="."]
 offset_right = 40.0
 offset_bottom = 40.0

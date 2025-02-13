@@ -9,7 +9,6 @@ var bullet_scene = preload("res://bullet.tscn")
 var explode_scene = preload("res://explode.tscn")
 
 var invader_list := []
-var explode_list := []
 
 var gamefield_size :Vector2
 func get_gamefield_rect() -> Rect2:
@@ -29,9 +28,12 @@ func _ready() -> void:
 	$UI.position = Vector2(gamefield_size.x,0)
 	$UI.size = Vector2(vp_size.x - gamefield_size.x, vp_size.y)
 
-	var mv_vt = Vector2(20,20)
-	Invader.set_move_vector(mv_vt)
+	$GameField/Fighter.position = calc_grid_position(5,GridCount_Y-1) # Vector2( (5) * gridsize.x, gridsize.y * (GridCount_Y-1) )
 
+	Invader.set_move_vector(Vector2(20,20))
+	init_invader()
+
+func init_invader() -> void:
 	for i in InvaderCount_X:
 		var o = invader_scene.instantiate().init(Invader.Type.Invader3)
 		$GameField.add_child(o)
@@ -52,22 +54,20 @@ func _ready() -> void:
 			invader_list.append(o)
 			o.position = calc_grid_position(i+1,j+5) # Vector2( (i+1) * gridsize.x, gridsize.y * (j+5) )
 
-	$GameField/Fighter.position = calc_grid_position(5,GridCount_Y-1) # Vector2( (5) * gridsize.x, gridsize.y * (GridCount_Y-1) )
-
+func invader_explode(pos :Vector2) -> void:
 	var o = explode_scene.instantiate().init(Explode.Type.Invader)
-	o.position = Vector2( randf_range(0,gamefield_size.x), randf_range(0,gamefield_size.y) )
-	explode_list.append(o)
-	$GameField.add_child(o)
+	o.position = pos
+	$GameField/Explodes.add_child(o)
 
-	o = explode_scene.instantiate().init(Explode.Type.UFO)
-	o.position = calc_grid_position(5,1) # Vector2( (5) * gridsize.x, gridsize.y  )
-	explode_list.append(o)
-	$GameField.add_child(o)
+func UFO_explode(pos :Vector2) -> void:
+	var o = explode_scene.instantiate().init(Explode.Type.UFO)
+	o.position = pos
+	$GameField/Explodes.add_child(o)
 
-	o = explode_scene.instantiate().init(Explode.Type.Fighter)
-	o.position = calc_grid_position(7,GridCount_Y-1) # Vector2( (7) * gridsize.x, gridsize.y * (GridCount_Y-1) )
-	explode_list.append(o)
-	$GameField.add_child(o)
+func fighter_explode(pos :Vector2) -> void:
+	var o = explode_scene.instantiate().init(Explode.Type.Fighter)
+	o.position = pos
+	$GameField/Explodes.add_child(o)
 
 func _process(delta: float) -> void:
 	if $GameField/UFO.visible:
