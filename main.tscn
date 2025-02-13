@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://vndwtwcsdgv"]
+[gd_scene load_steps=4 format=3 uid="uid://vndwtwcsdgv"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_8or64"]
+[ext_resource type="PackedScene" uid="uid://cwbcb8kpfjdoy" path="res://ufo.tscn" id="2_foe23"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4a43i"]
 bg_color = Color(0, 0, 0, 1)
@@ -16,3 +17,5 @@ clip_contents = true
 theme_override_styles/panel = SubResource("StyleBoxFlat_4a43i")
 
 [node name="Bullets" type="Node2D" parent="GameField"]
+
+[node name="UFO" parent="GameField" instance=ExtResource("2_foe23")]

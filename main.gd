@@ -12,7 +12,6 @@ var ufo_scene = preload("res://ufo.tscn")
 
 var invader_list := []
 var explode_list := []
-var ufo :UFO
 var fighter :Fighter
 
 var gamefield_size :Vector2
@@ -54,8 +53,6 @@ func _ready() -> void:
 			invader_list.append(o)
 			o.position = calc_grid_position(i+1,j+5) # Vector2( (i+1) * gridsize.x, gridsize.y * (j+5) )
 
-	new_UFO()
-
 	fighter = fighter_scene.instantiate()
 	$GameField.add_child(fighter)
 	fighter.position = calc_grid_position(5,GridCount_Y-1) # Vector2( (5) * gridsize.x, gridsize.y * (GridCount_Y-1) )
@@ -76,7 +73,10 @@ func _ready() -> void:
 	$GameField.add_child(o)
 
 func _process(delta: float) -> void:
-	move_UFO()
+	if $GameField/UFO.visible:
+		move_UFO()
+	elif randi_range(0, 100) == 0:
+		new_UFO()
 	move_bullets()
 	move_invaders()
 	move_fighter()
@@ -111,34 +111,25 @@ func move_bullets() -> void:
 			$GameField/Bullets.remove_child(o)
 
 func new_UFO() -> void:
-	if ufo != null:
-		return
 	var gridsize = get_gridsize()
-	ufo = ufo_scene.instantiate()
-	$GameField.add_child(ufo)
 	var mv_speed = [3,10].pick_random()
 	if randi_range(0, 1) == 0:
-		ufo.set_move_vector(Vector2(mv_speed,0))
-		ufo.position = calc_grid_position(0,1) # Vector2( 0, gridsize.y)
+		$GameField/UFO.set_move_vector(Vector2(mv_speed,0))
+		$GameField/UFO.position = calc_grid_position(0,1)
 	else :
-		ufo.set_move_vector(Vector2(-mv_speed,0))
-		ufo.position = calc_grid_position( GridCount_X,1) # Vector2( gamefield_size.x, gridsize.y)
+		$GameField/UFO.set_move_vector(Vector2(-mv_speed,0))
+		$GameField/UFO.position = calc_grid_position( GridCount_X,1)
+	$GameField/UFO.show()
 
 func del_UFO() -> void:
-	if ufo == null:
-		return
-	$GameField.remove_child(ufo)
-	ufo = null
-	new_UFO.call_deferred()
+	$GameField/UFO.hide()
 
 func move_UFO() -> void:
-	if ufo == null :
-		return
-	ufo.position += ufo.get_move_vector()
-	if not get_gamefield_rect().has_point(ufo.position):
+	$GameField/UFO.position += $GameField/UFO.get_move_vector()
+	if not get_gamefield_rect().has_point($GameField/UFO.position):
 		del_UFO()
 	elif randi_range(0, 100) == 0:
-		new_bullet(Bullet.Type.UFO, ufo.position ).set_color(ufo.get_color())
+		new_bullet(Bullet.Type.UFO, $GameField/UFO.position ).set_color($GameField/UFO.get_color())
 
 # esc to exit
 func _unhandled_input(event: InputEvent) -> void:
