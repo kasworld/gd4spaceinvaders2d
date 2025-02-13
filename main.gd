@@ -18,22 +18,23 @@ func _ready() -> void:
 	var vp_size = get_viewport_rect().size
 	var gridsize = get_gridsize(vp_size)
 
+	var mv_vt = Vector2(20,20)
 	for i in 11:
-		var o = invader_scene.instantiate().init(Invader.Type.Invader3)
+		var o = invader_scene.instantiate().init(Invader.Type.Invader3,mv_vt)
 		add_child(o)
 		invader_list.append(o)
 		o.position = Vector2( (i+1) * gridsize.x, gridsize.y * 2)
 
 	for j in 2:
 		for i in 11:
-			var o = invader_scene.instantiate().init(Invader.Type.Invader2)
+			var o = invader_scene.instantiate().init(Invader.Type.Invader2,mv_vt)
 			add_child(o)
 			invader_list.append(o)
 			o.position = Vector2( (i+1) * gridsize.x, gridsize.y * (j+3) )
 
 	for j in 2:
 		for i in 11:
-			var o = invader_scene.instantiate().init(Invader.Type.Invader1)
+			var o = invader_scene.instantiate().init(Invader.Type.Invader1,mv_vt)
 			add_child(o)
 			invader_list.append(o)
 			o.position = Vector2( (i+1) * gridsize.x, gridsize.y * (j+5) )
@@ -66,11 +67,10 @@ func _process(delta: float) -> void:
 	move_fighter()
 
 var inv_num := 0
-var inv_mv_vt = [Vector2(20,0),Vector2(0,20),Vector2(-20,0),Vector2(0,-20)]
-var inv_mv_num := 0
+var inv_move_dir := Invader.MoveDir.Right
 func move_invaders() -> void:
 	var o = invader_list[inv_num]
-	o.position += inv_mv_vt[inv_mv_num]
+	o.position += o.get_move_vector(inv_move_dir)
 	o.next_frame()
 	if randi_range(0, 100) == 0:
 		new_bullet(o.get_bullet_type(), o.position ).set_color(o.get_color())
@@ -78,8 +78,7 @@ func move_invaders() -> void:
 	if inv_num >= invader_list.size():
 		inv_num = 0
 		# change move vector
-		inv_mv_num +=1
-		inv_mv_num %= inv_mv_vt.size()
+		inv_move_dir = Invader.get_dir_clockwise(inv_move_dir)
 
 func new_bullet(t :Bullet.Type, p :Vector2) -> Bullet:
 	var o = bullet_scene.instantiate().init(t)
@@ -137,9 +136,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.keycode == KEY_SPACE:
 			add_fighter_bullet()
 		elif event.keycode == KEY_LEFT:
-			fighter_mv_vt = Vector2(-8,0)
+			fighter_mv_vt = Vector2(-6,0)
 		elif event.keycode == KEY_RIGHT:
-			fighter_mv_vt = Vector2(8,0)
+			fighter_mv_vt = Vector2(6,0)
 	if event is InputEventKey and event.is_released():
 		if event.keycode == KEY_LEFT:
 			fighter_mv_vt = Vector2(0,0)

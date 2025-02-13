@@ -2,11 +2,16 @@ extends Node2D
 class_name Invader
 
 enum Type {Invader1,Invader2,Invader3}
+enum MoveDir {Right,Down,Left,Up}
+static func get_dir_clockwise(dir:MoveDir) -> MoveDir:
+	return (dir+1)%4
 
 var invader_type : Type
+var move_vector := [Vector2.ZERO,Vector2.ZERO,Vector2.ZERO,Vector2.ZERO]
 
-func init(t : Type) -> Invader:
+func init(t : Type, mv_vt :Vector2) -> Invader:
 	invader_type = t
+	set_move_vector(mv_vt)
 	match invader_type:
 		Type.Invader1:
 			$AnimatedSprite2D.sprite_frames = preload("res://invader_1_sprite_frame.tres")
@@ -41,6 +46,15 @@ func get_color() -> Color:
 func next_frame() -> void:
 	$AnimatedSprite2D.frame = ($AnimatedSprite2D.frame +1) % $AnimatedSprite2D.sprite_frames.get_frame_count("default")
 	set_color(NamedColorList.color_list.pick_random()[0])
+
+func set_move_vector(mv_vt :Vector2) -> void:
+	move_vector[MoveDir.Right] = Vector2(mv_vt.x,0)
+	move_vector[MoveDir.Left] = Vector2(-mv_vt.x,0)
+	move_vector[MoveDir.Up] = Vector2(0,-mv_vt.y)
+	move_vector[MoveDir.Down] = Vector2(0,mv_vt.y)
+
+func get_move_vector(dir :MoveDir) -> Vector2:
+	return move_vector[dir]
 
 func _on_timer_timeout() -> void:
 	next_frame()

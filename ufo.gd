@@ -1,6 +1,11 @@
 extends Node2D
 class_name UFO
 
+func init(vt :Vector2, co :Color) -> UFO:
+	set_move_vector(vt)
+	set_color(co)
+	return self
+
 func set_color(co :Color) -> void:
 	$Sprite2D.self_modulate = co
 
