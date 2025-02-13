@@ -58,16 +58,22 @@ func invader_explode(pos :Vector2) -> void:
 	var o = explode_scene.instantiate().init(Explode.Type.Invader)
 	o.position = pos
 	$GameField/Explodes.add_child(o)
+	o.ended.connect(end_explode)
 
 func UFO_explode(pos :Vector2) -> void:
 	var o = explode_scene.instantiate().init(Explode.Type.UFO)
 	o.position = pos
 	$GameField/Explodes.add_child(o)
+	o.ended.connect(end_explode)
 
 func fighter_explode(pos :Vector2) -> void:
 	var o = explode_scene.instantiate().init(Explode.Type.Fighter)
 	o.position = pos
 	$GameField/Explodes.add_child(o)
+	o.ended.connect(end_explode)
+
+func end_explode(o :Explode) ->void:
+	$GameField/Explodes.remove_child(o)
 
 func _process(delta: float) -> void:
 	if $GameField/UFO.visible:
@@ -86,6 +92,9 @@ func move_invaders() -> void:
 	o.next_frame()
 	if randi_range(0, 100) == 0:
 		new_bullet(o.get_bullet_type(), o.position ).set_color(o.get_color())
+	if randi_range(0, 100) == 0:
+		invader_explode(o.position)
+
 	inv_num += 1
 	if inv_num >= invader_list.size():
 		inv_num = 0
@@ -127,6 +136,8 @@ func move_UFO() -> void:
 		del_UFO()
 	elif randi_range(0, 100) == 0:
 		new_bullet(Bullet.Type.UFO, $GameField/UFO.position ).set_color($GameField/UFO.get_color())
+	if randi_range(0, 100) == 0:
+		UFO_explode($GameField/UFO.position)
 
 # esc to exit
 func _unhandled_input(event: InputEvent) -> void:
@@ -150,5 +161,7 @@ func _unhandled_input(event: InputEvent) -> void:
 var fighter_mv_vt :Vector2
 func move_fighter() -> void:
 	$GameField/Fighter.position += fighter_mv_vt
+	if randi_range(0, 100) == 0:
+		fighter_explode($GameField/Fighter.position)
 	if not get_gamefield_rect().has_point($GameField/Fighter.position):
 		$GameField/Fighter.position = $GameField/Fighter.position.clamp(Vector2.ZERO, gamefield_size)

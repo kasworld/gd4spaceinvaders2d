@@ -20,14 +20,14 @@ autostart = true
 clip_contents = true
 theme_override_styles/panel = SubResource("StyleBoxFlat_4a43i")
 
+[node name="Explodes" type="Node2D" parent="GameField"]
+
 [node name="Bullets" type="Node2D" parent="GameField"]
 
 [node name="UFO" parent="GameField" instance=ExtResource("2_foe23")]
 visible = false
 
 [node name="Fighter" parent="GameField" instance=ExtResource("3_yb8rn")]
-
-[node name="Explodes" type="Node2D" parent="GameField"]
 
 [node name="UI" type="VBoxContainer" parent="."]
 offset_right = 40.0
