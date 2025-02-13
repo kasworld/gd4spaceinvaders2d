@@ -32,22 +32,24 @@ func _ready() -> void:
 	var gridsize = get_gridsize()
 
 	var mv_vt = Vector2(20,20)
+	Invader.set_move_vector(mv_vt)
+
 	for i in InvaderCount_X:
-		var o = invader_scene.instantiate().init(Invader.Type.Invader3,mv_vt)
+		var o = invader_scene.instantiate().init(Invader.Type.Invader3)
 		$GameField.add_child(o)
 		invader_list.append(o)
 		o.position = calc_grid_position(i+1,2) #Vector2( (i+1) * gridsize.x, gridsize.y * 2)
 
 	for j in 2:
 		for i in InvaderCount_X:
-			var o = invader_scene.instantiate().init(Invader.Type.Invader2,mv_vt)
+			var o = invader_scene.instantiate().init(Invader.Type.Invader2)
 			$GameField.add_child(o)
 			invader_list.append(o)
 			o.position = calc_grid_position(i+1,j+3) # Vector2( (i+1) * gridsize.x, gridsize.y * (j+3) )
 
 	for j in 2:
 		for i in InvaderCount_X:
-			var o = invader_scene.instantiate().init(Invader.Type.Invader1,mv_vt)
+			var o = invader_scene.instantiate().init(Invader.Type.Invader1)
 			$GameField.add_child(o)
 			invader_list.append(o)
 			o.position = calc_grid_position(i+1,j+5) # Vector2( (i+1) * gridsize.x, gridsize.y * (j+5) )
@@ -83,7 +85,7 @@ var inv_num := 0
 var inv_move_dir := Invader.MoveDir.Right
 func move_invaders() -> void:
 	var o = invader_list[inv_num]
-	o.position += o.get_move_vector(inv_move_dir)
+	o.position += Invader.get_move_vector(inv_move_dir)
 	o.next_frame()
 	if randi_range(0, 100) == 0:
 		new_bullet(o.get_bullet_type(), o.position ).set_color(o.get_color())
