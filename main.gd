@@ -38,6 +38,7 @@ func _ready() -> void:
 var inv_num := 0
 var inv_move_dir_order := 0
 var need_change_dir :bool
+var alive_invader_count := 0
 func init_invader() -> void:
 	for o in $GameField/Invaders.get_children():
 		$GameField/Invaders.remove_child(o)
@@ -63,7 +64,11 @@ func init_invader() -> void:
 			$GameField/Invaders.add_child(o)
 			o.position = calc_grid_position(i+1,j+5)
 
+	alive_invader_count = 5*InvaderCount_X
+
+
 func invader_explode(pos :Vector2) -> void:
+	alive_invader_count -=1
 	var o = explode_scene.instantiate().init(Explode.Type.Invader)
 	o.position = pos
 	$GameField/Explodes.add_child(o)
@@ -94,28 +99,43 @@ func _process(delta: float) -> void:
 	move_fighter()
 
 func move_invaders() -> void:
+	if alive_invader_count <= 0:
+		# win game
+		init_invader.call_deferred()
+		return
+
+	while not $GameField/Invaders.get_child(inv_num).visible :
+		if invader_move_dir_next():
+			return
 	var o = $GameField/Invaders.get_child(inv_num)
+
 	var move_dir = Invader.move_dir_order[inv_move_dir_order]
 	o.position += Invader.get_move_vector( move_dir )
 	o.next_frame()
 	if randi_range(0, 100) == 0:
 		new_bullet(o.get_bullet_type(), o.position ).set_color(o.get_color())
-	if randi_range(0, 100) == 0:
-		invader_explode(o.position)
 	if not calc_invader_move_area().has_point(o.position):
 		need_change_dir = true
 		if o.position.y > invader_move_down_limit():
 			# game over
 			init_invader.call_deferred()
+	if randi_range(0, 50) == 0:
+		o.hide()
+		invader_explode(o.position)
+	invader_move_dir_next()
+
+func invader_move_dir_next() -> bool:
 	inv_num += 1
+	var move_dir = Invader.move_dir_order[inv_move_dir_order]
 	if inv_num >= $GameField/Invaders.get_child_count():
 		inv_num = 0
 		# change move vector
 		if move_dir == Invader.MoveDir.Down or need_change_dir:
 			inv_move_dir_order +=1
 			inv_move_dir_order %= Invader.move_dir_order.size()
-
 		need_change_dir = false
+		return true
+	return false
 
 func new_bullet(t :Bullet.Type, p :Vector2) -> Bullet:
 	var o = bullet_scene.instantiate().init(t)
