@@ -21,6 +21,7 @@ clip_contents = true
 theme_override_styles/panel = SubResource("StyleBoxFlat_4a43i")
 
 [node name="Explodes" type="Node2D" parent="GameField"]
+z_index = 1
 
 [node name="Bullets" type="Node2D" parent="GameField"]
 
@@ -28,6 +29,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_4a43i")
 visible = false
 
 [node name="Fighter" parent="GameField" instance=ExtResource("3_yb8rn")]
+
+[node name="Invaders" type="Node2D" parent="GameField"]
 
 [node name="UI" type="VBoxContainer" parent="."]
 offset_right = 40.0

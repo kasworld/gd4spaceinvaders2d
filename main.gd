@@ -8,8 +8,6 @@ var invader_scene = preload("res://invader.tscn")
 var bullet_scene = preload("res://bullet.tscn")
 var explode_scene = preload("res://explode.tscn")
 
-var invader_list := []
-
 var gamefield_size :Vector2
 func get_gamefield_rect() -> Rect2:
 	return Rect2(Vector2.ZERO, gamefield_size)
@@ -28,7 +26,7 @@ func _ready() -> void:
 	$UI.position = Vector2(gamefield_size.x,0)
 	$UI.size = Vector2(vp_size.x - gamefield_size.x, vp_size.y)
 
-	$GameField/Fighter.position = calc_grid_position(5,GridCount_Y-1) # Vector2( (5) * gridsize.x, gridsize.y * (GridCount_Y-1) )
+	$GameField/Fighter.position = calc_grid_position(5,GridCount_Y-1)
 
 	Invader.set_move_vector(Vector2(20,20))
 	init_invader()
@@ -36,23 +34,20 @@ func _ready() -> void:
 func init_invader() -> void:
 	for i in InvaderCount_X:
 		var o = invader_scene.instantiate().init(Invader.Type.Invader3)
-		$GameField.add_child(o)
-		invader_list.append(o)
-		o.position = calc_grid_position(i+1,2) #Vector2( (i+1) * gridsize.x, gridsize.y * 2)
+		$GameField/Invaders.add_child(o)
+		o.position = calc_grid_position(i+1,2)
 
 	for j in 2:
 		for i in InvaderCount_X:
 			var o = invader_scene.instantiate().init(Invader.Type.Invader2)
-			$GameField.add_child(o)
-			invader_list.append(o)
-			o.position = calc_grid_position(i+1,j+3) # Vector2( (i+1) * gridsize.x, gridsize.y * (j+3) )
+			$GameField/Invaders.add_child(o)
+			o.position = calc_grid_position(i+1,j+3)
 
 	for j in 2:
 		for i in InvaderCount_X:
 			var o = invader_scene.instantiate().init(Invader.Type.Invader1)
-			$GameField.add_child(o)
-			invader_list.append(o)
-			o.position = calc_grid_position(i+1,j+5) # Vector2( (i+1) * gridsize.x, gridsize.y * (j+5) )
+			$GameField/Invaders.add_child(o)
+			o.position = calc_grid_position(i+1,j+5)
 
 func invader_explode(pos :Vector2) -> void:
 	var o = explode_scene.instantiate().init(Explode.Type.Invader)
@@ -85,21 +80,29 @@ func _process(delta: float) -> void:
 	move_fighter()
 
 var inv_num := 0
-var inv_move_dir := Invader.MoveDir.Right
+var inv_move_dir_order := 0
+var need_change_dir :bool
 func move_invaders() -> void:
-	var o = invader_list[inv_num]
-	o.position += Invader.get_move_vector(inv_move_dir)
+	var o = $GameField/Invaders.get_child(inv_num)
+	var move_dir = Invader.move_dir_order[inv_move_dir_order]
+	o.position += Invader.get_move_vector( move_dir )
 	o.next_frame()
 	if randi_range(0, 100) == 0:
 		new_bullet(o.get_bullet_type(), o.position ).set_color(o.get_color())
 	if randi_range(0, 100) == 0:
 		invader_explode(o.position)
-
+	var inv_move_rect = Rect2( calc_grid_position(1,1), calc_grid_position(GridCount_X-2,GridCount_Y-3))
+	if not inv_move_rect.has_point(o.position):
+		need_change_dir = true
 	inv_num += 1
-	if inv_num >= invader_list.size():
+	if inv_num >= $GameField/Invaders.get_child_count():
 		inv_num = 0
 		# change move vector
-		inv_move_dir = Invader.get_dir_clockwise(inv_move_dir)
+		if move_dir == Invader.MoveDir.Down or need_change_dir:
+			inv_move_dir_order +=1
+			inv_move_dir_order %= Invader.move_dir_order.size()
+
+		need_change_dir = false
 
 func new_bullet(t :Bullet.Type, p :Vector2) -> Bullet:
 	var o = bullet_scene.instantiate().init(t)

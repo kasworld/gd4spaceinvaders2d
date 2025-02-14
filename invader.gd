@@ -5,6 +5,7 @@ enum Type {Invader1,Invader2,Invader3}
 enum MoveDir {Right,Down,Left,Up}
 static func get_dir_clockwise(dir:MoveDir) -> MoveDir:
 	return (dir+1)%4
+static var move_dir_order := [MoveDir.Right,MoveDir.Down,MoveDir.Left,MoveDir.Down]
 
 static var move_vector := [Vector2.ZERO,Vector2.ZERO,Vector2.ZERO,Vector2.ZERO]
 static func set_move_vector(mv_vt :Vector2) -> void:
