@@ -100,7 +100,7 @@ func _process(delta: float) -> void:
 
 func move_invaders() -> void:
 	if alive_invader_count <= 0:
-		# win game
+		print("win game")
 		init_invader.call_deferred()
 		return
 
@@ -117,9 +117,9 @@ func move_invaders() -> void:
 	if not calc_invader_move_area().has_point(o.position):
 		need_change_dir = true
 		if o.position.y > invader_move_down_limit():
-			# game over
+			print("lose game")
 			init_invader.call_deferred()
-	if randi_range(0, 50) == 0:
+	if randi_range(0, 60) == 0:
 		o.hide()
 		invader_explode(o.position)
 	invader_move_dir_next()
