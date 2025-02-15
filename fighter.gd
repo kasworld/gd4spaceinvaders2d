@@ -1,6 +1,7 @@
 extends Area2D
 class_name Fighter
 
+signal ended(o :Fighter)
 
 func init() -> void:
 	$CollisionShape2D.shape.size = $Sprite2D.texture.get_size()
@@ -16,3 +17,6 @@ func next_frame() -> void:
 
 func _on_timer_timeout() -> void:
 	set_color(NamedColorList.color_list.pick_random()[0])
+
+func _on_area_entered(area: Area2D) -> void:
+	ended.emit(self)

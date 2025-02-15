@@ -1,6 +1,8 @@
 extends Area2D
 class_name Invader
 
+signal ended(o :Invader)
+
 enum Type {Invader1,Invader2,Invader3}
 enum MoveDir {Right,Down,Left,Up}
 static func get_dir_clockwise(dir:MoveDir) -> MoveDir:
@@ -58,3 +60,6 @@ func next_frame() -> void:
 
 func _on_timer_timeout() -> void:
 	next_frame()
+
+func _on_area_entered(area: Area2D) -> void:
+	ended.emit(self)

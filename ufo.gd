@@ -1,6 +1,8 @@
 extends Area2D
 class_name UFO
 
+signal ended(o :UFO)
+
 func init(vt :Vector2, co :Color) -> UFO:
 	$CollisionShape2D.shape.size = $Sprite2D.texture.get_size()
 	set_move_vector(vt)
@@ -25,3 +27,6 @@ func get_move_vector() -> Vector2:
 
 func _on_timer_timeout() -> void:
 	set_color(NamedColorList.color_list.pick_random()[0])
+
+func _on_area_entered(area: Area2D) -> void:
+	ended.emit(self)

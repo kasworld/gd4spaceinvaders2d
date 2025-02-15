@@ -1,6 +1,8 @@
 extends Area2D
 class_name Bullet
 
+signal ended(o :Bullet)
+
 enum Type {Invader1,Invader2,Invader3,UFO,Fighter}
 
 var bullet_type : Type
@@ -59,3 +61,6 @@ func get_move_vector() -> Vector2:
 
 func _on_timer_timeout() -> void:
 	next_frame()
+
+func _on_area_entered(area: Area2D) -> void:
+	ended.emit(self)
