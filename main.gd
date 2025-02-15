@@ -21,7 +21,6 @@ func calc_invader_move_area() -> Rect2:
 func invader_move_down_limit() -> float:
 	return calc_invader_move_area().end.y
 
-
 func _ready() -> void:
 	var vp_size = get_viewport_rect().size
 	gamefield_size = Vector2(vp_size.x*0.7,vp_size.y)
@@ -36,12 +35,14 @@ func _ready() -> void:
 
 	$GameField/UFO.ended.connect(UFO_explode)
 
+	update_score()
 	init_invader()
 
 var inv_num := 0
 var inv_move_dir_order := 0
 var need_change_dir :bool
 var alive_invader_count := 0
+var score := 0
 func init_invader() -> void:
 	for o in $GameField/Invaders.get_children():
 		$GameField/Invaders.remove_child(o)
@@ -72,7 +73,12 @@ func init_invader() -> void:
 
 	alive_invader_count = 5*InvaderCount_X
 
+func update_score() -> void:
+	$UI/Score.text = "Score %d" % score
+
 func invader_explode(inv :Invader) -> void:
+	score += Invader.Score[inv.get_type()]
+	update_score()
 	var pos = inv.position
 	alive_invader_count -=1
 	var o = explode_scene.instantiate().init(Explode.Type.Invader)
@@ -81,6 +87,8 @@ func invader_explode(inv :Invader) -> void:
 	o.ended.connect(end_explode)
 
 func UFO_explode(ufo :UFO) -> void:
+	score += ufo.score
+	update_score()
 	var pos = ufo.position
 	var o = explode_scene.instantiate().init(Explode.Type.UFO)
 	o.position = pos

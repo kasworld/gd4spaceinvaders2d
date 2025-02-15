@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://vndwtwcsdgv"]
+[gd_scene load_steps=7 format=3 uid="uid://vndwtwcsdgv"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_8or64"]
 [ext_resource type="PackedScene" uid="uid://cwbcb8kpfjdoy" path="res://ufo.tscn" id="2_foe23"]
@@ -9,6 +9,9 @@ bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ksp6n"]
 font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_4ggli"]
+font_size = 48
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_8or64")
@@ -38,9 +41,15 @@ offset_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="UI"]
+[node name="Title" type="Label" parent="UI"]
 layout_mode = 2
 text = "Space Invaders by Godot4"
 label_settings = SubResource("LabelSettings_ksp6n")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="UI"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_4ggli")
 horizontal_alignment = 1
 vertical_alignment = 1

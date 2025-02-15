@@ -3,6 +3,7 @@ class_name Invader
 
 signal ended(o :Invader)
 enum Type {Invader1,Invader2,Invader3}
+const Score = [10,30,50]
 enum MoveDir {Right,Down,Left,Up}
 static func get_dir_clockwise(dir:MoveDir) -> MoveDir:
 	return (dir+1)%4 as MoveDir

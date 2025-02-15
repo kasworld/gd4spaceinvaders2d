@@ -3,9 +3,16 @@ class_name UFO
 
 signal ended(o :UFO)
 
+const Score = [100,500]
+var score := 0
 var valid :bool
 func init() -> UFO:
 	var mv_speed = [3,10].pick_random()
+	match mv_speed:
+		3:
+			score = 100
+		10:
+			score = 500
 	if randi_range(0, 1) == 0:
 		set_move_vector(Vector2(mv_speed,0))
 	else :
