@@ -121,6 +121,7 @@ func UFO_explode(ufo :UFO) -> void:
 	o.ended.connect(end_explode)
 
 func fighter_explode(fighter :Fighter) -> void:
+	$GameField/Fighter.deinit()
 	fighter_dead += 1
 	var pos = fighter.position
 	var o = explode_scene.instantiate().init(Explode.Type.Fighter)
@@ -133,6 +134,8 @@ func bullet_explode(bullet :Bullet) -> void:
 
 func end_explode(o :Explode) ->void:
 	$GameField/Explodes.remove_child(o)
+	if o.explode_type == Explode.Type.Fighter:
+		$GameField/Fighter.init()
 
 func _process(_delta: float) -> void:
 	if $GameField/UFO.visible:

@@ -3,7 +3,19 @@ class_name Fighter
 
 signal ended(o :Fighter)
 
-func init() -> void:
+var valid :bool
+func init() -> Fighter:
+	show()
+	set_process_mode.call_deferred(PROCESS_MODE_INHERIT)
+	valid = true
+	return self
+
+func deinit() -> void:
+	hide()
+	valid = false
+	set_process_mode.call_deferred(PROCESS_MODE_DISABLED)
+
+func _ready() -> void:
 	$CollisionShape2D.shape.size = $Sprite2D.texture.get_size() * $Sprite2D.scale
 
 func set_color(co :Color) -> void:
