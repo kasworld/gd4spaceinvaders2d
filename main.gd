@@ -133,6 +133,8 @@ func fighter_explode(fighter :Fighter) -> void:
 
 func bullet_explode(bullet :Bullet) -> void:
 	$GameField/Bullets.remove_child.call_deferred(bullet)
+	if bullet.bullet_type == Bullet.Type.Fighter:
+		current_fighter_bullet_count -=1
 
 func end_explode(o :Explode) ->void:
 	$GameField/Explodes.remove_child(o)
@@ -206,8 +208,14 @@ func new_bullet(t :Bullet.Type, p :Vector2) -> Bullet:
 	o.ended.connect(bullet_explode)
 	return o
 
+# limit fighter bullet count, rate
+var last_fighter_bullet_fire_time : float # get_unix_time_from_system()
+var current_fighter_bullet_count :int
 func add_fighter_bullet() -> void:
-	new_bullet(Bullet.Type.Fighter, $GameField/Fighter.position ).set_color($GameField/Fighter.get_color())
+	if (Time.get_unix_time_from_system() - last_fighter_bullet_fire_time) > Fighter.BulletNextFireSec and current_fighter_bullet_count < Fighter.BulletCountLimit:
+		new_bullet(Bullet.Type.Fighter, $GameField/Fighter.position ).set_color($GameField/Fighter.get_color())
+		last_fighter_bullet_fire_time = Time.get_unix_time_from_system()
+		current_fighter_bullet_count +=1
 
 func move_bullets() -> void:
 	for o in $GameField/Bullets.get_children():

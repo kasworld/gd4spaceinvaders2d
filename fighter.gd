@@ -3,6 +3,9 @@ class_name Fighter
 
 signal ended(o :Fighter)
 
+const BulletCountLimit = 2
+const BulletNextFireSec = 0.3
+
 var valid :bool
 func init() -> Fighter:
 	show()
