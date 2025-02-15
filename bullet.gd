@@ -32,7 +32,7 @@ func init(t : Type) -> Bullet:
 			$Sprite2D.texture = preload("res://assets/fighter_bullet.png")
 		_ :
 			print_debug("invalid bullet type ", bullet_type)
-	$CollisionShape2D.shape.size = $Sprite2D.texture.get_size()
+	$CollisionShape2D.shape.size = $Sprite2D.texture.get_size() * $Sprite2D.scale
 	return self
 
 func get_type() -> Type:

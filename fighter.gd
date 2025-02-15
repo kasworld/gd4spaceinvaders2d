@@ -4,7 +4,7 @@ class_name Fighter
 signal ended(o :Fighter)
 
 func init() -> void:
-	$CollisionShape2D.shape.size = $Sprite2D.texture.get_size()
+	$CollisionShape2D.shape.size = $Sprite2D.texture.get_size() * $Sprite2D.scale
 
 func set_color(co :Color) -> void:
 	$Sprite2D.self_modulate = co

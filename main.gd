@@ -34,6 +34,7 @@ func _ready() -> void:
 	$GameField/Fighter.init()
 	$GameField/Fighter.position = calc_grid_position(5,GridCount_Y-1)
 	$GameField/Fighter.ended.connect(fighter_explode)
+	$GameField/UFO.init()
 	$GameField/UFO.ended.connect(UFO_explode)
 
 	init_invader()

@@ -3,10 +3,8 @@ class_name UFO
 
 signal ended(o :UFO)
 
-func init(vt :Vector2, co :Color) -> UFO:
-	$CollisionShape2D.shape.size = $Sprite2D.texture.get_size()
-	set_move_vector(vt)
-	set_color(co)
+func init() -> UFO:
+	$CollisionShape2D.shape.size = $Sprite2D.texture.get_size() * $Sprite2D.scale
 	return self
 
 func set_color(co :Color) -> void:
