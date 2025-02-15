@@ -30,27 +30,33 @@ func _ready() -> void:
 	$UI.size = Vector2(vp_size.x - gamefield_size.x, vp_size.y)
 
 	$GameField/Fighter.init()
-	$GameField/Fighter.position = calc_grid_position(5,GridCount_Y-1)
 	$GameField/Fighter.ended.connect(fighter_explode)
-
 	$GameField/UFO.ended.connect(UFO_explode)
 
 	new_game()
 
 var score := 0
+var stage := 0
+var fighter_dead := 0
 func new_game() -> void:
 	score = 0
+	fighter_dead = 0
+	stage = 0
 	update_score()
-	clear_bullet()
+	clear_bullets()
+	$GameField/Fighter.position = calc_grid_position(1,GridCount_Y-1)
 	$GameField/UFO.deinit()
 	init_invader()
 
 func next_stage() -> void:
-	clear_bullet()
+	stage += 1
+	update_score()
+	clear_bullets()
+	$GameField/Fighter.position = calc_grid_position(1,GridCount_Y-1)
 	$GameField/UFO.deinit()
 	init_invader()
 
-func clear_bullet() -> void:
+func clear_bullets() -> void:
 	for o in $GameField/Bullets.get_children():
 		$GameField/Bullets.remove_child(o)
 
@@ -90,6 +96,8 @@ func init_invader() -> void:
 
 func update_score() -> void:
 	$UI/Score.text = "Score %d" % score
+	$UI/Fighter.text = "Fighter %d" % fighter_dead
+	$UI/Stage.text = "Stage %d" % stage
 
 func invader_explode(inv :Invader) -> void:
 	score += Invader.Score[inv.get_type()]
@@ -111,6 +119,7 @@ func UFO_explode(ufo :UFO) -> void:
 	o.ended.connect(end_explode)
 
 func fighter_explode(fighter :Fighter) -> void:
+	fighter_dead += 1
 	var pos = fighter.position
 	var o = explode_scene.instantiate().init(Explode.Type.Fighter)
 	o.position = pos
@@ -130,7 +139,21 @@ func _process(_delta: float) -> void:
 		new_UFO()
 	move_bullets()
 	move_invaders()
+	if automove_fighter:
+		fighter_auto()
 	move_fighter()
+
+var automove_fighter :bool = true
+func fighter_auto() -> void:
+	match randi_range(0,100):
+		0,1,2,3,4:
+			fighter_mv_vt = Vector2(-6,0)
+		10:
+			fighter_mv_vt = Vector2(0,0)
+		20,21,22,23,24:
+			fighter_mv_vt = Vector2(6,0)
+		30:
+			add_fighter_bullet()
 
 func move_invaders() -> void:
 	if alive_invader_count <= 0:
