@@ -35,14 +35,29 @@ func _ready() -> void:
 
 	$GameField/UFO.ended.connect(UFO_explode)
 
+	new_game()
+
+var score := 0
+func new_game() -> void:
+	score = 0
 	update_score()
+	clear_bullet()
+	$GameField/UFO.deinit()
 	init_invader()
+
+func next_stage() -> void:
+	clear_bullet()
+	$GameField/UFO.deinit()
+	init_invader()
+
+func clear_bullet() -> void:
+	for o in $GameField/Bullets.get_children():
+		$GameField/Bullets.remove_child(o)
 
 var inv_num := 0
 var inv_move_dir_order := 0
 var need_change_dir :bool
 var alive_invader_count := 0
-var score := 0
 func init_invader() -> void:
 	for o in $GameField/Invaders.get_children():
 		$GameField/Invaders.remove_child(o)
@@ -119,8 +134,8 @@ func _process(_delta: float) -> void:
 
 func move_invaders() -> void:
 	if alive_invader_count <= 0:
-		print("win game")
-		init_invader.call_deferred()
+		print("win stage")
+		next_stage.call_deferred()
 		return
 
 	while not $GameField/Invaders.get_child(inv_num).visible :
@@ -137,7 +152,7 @@ func move_invaders() -> void:
 		need_change_dir = true
 		if o.position.y > invader_move_down_limit():
 			print("lose game")
-			init_invader.call_deferred()
+			new_game.call_deferred()
 	invader_move_dir_next()
 
 func invader_move_dir_next() -> bool:
