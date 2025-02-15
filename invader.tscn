@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cdaputlkti422"]
+[gd_scene load_steps=3 format=3 uid="uid://cdaputlkti422"]
 
 [ext_resource type="Script" path="res://invader.gd" id="1_s4vy7"]
 
-[node name="Invader" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4wy2"]
+
+[node name="Invader" type="Area2D"]
 script = ExtResource("1_s4vy7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -10,5 +12,8 @@ scale = Vector2(2, 2)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_g4wy2")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

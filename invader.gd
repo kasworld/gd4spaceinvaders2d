@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 class_name Invader
 
 enum Type {Invader1,Invader2,Invader3}
@@ -54,7 +54,6 @@ func get_color() -> Color:
 func next_frame() -> void:
 	$AnimatedSprite2D.frame = ($AnimatedSprite2D.frame +1) % $AnimatedSprite2D.sprite_frames.get_frame_count("default")
 	set_color(NamedColorList.color_list.pick_random()[0])
-
 
 func _on_timer_timeout() -> void:
 	next_frame()

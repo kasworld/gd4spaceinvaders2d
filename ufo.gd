@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 class_name UFO
 
 func init(vt :Vector2, co :Color) -> UFO:
