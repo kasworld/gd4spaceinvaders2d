@@ -29,6 +29,7 @@ func init(t : Type) -> Invader:
 			$AnimatedSprite2D.sprite_frames = preload("res://invader_3_sprite_frame.tres")
 		_ :
 			print_debug("invalid invader type ", invader_type)
+	$CollisionShape2D.shape.size = $AnimatedSprite2D.sprite_frames.get_frame_texture("default",0).get_size()
 	return self
 
 func get_type() -> Type:

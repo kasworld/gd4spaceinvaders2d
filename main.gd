@@ -31,6 +31,7 @@ func _ready() -> void:
 	$UI.position = Vector2(gamefield_size.x,0)
 	$UI.size = Vector2(vp_size.x - gamefield_size.x, vp_size.y)
 
+	$GameField/Fighter.init()
 	$GameField/Fighter.position = calc_grid_position(5,GridCount_Y-1)
 
 	init_invader()

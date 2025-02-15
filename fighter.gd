@@ -2,6 +2,9 @@ extends Area2D
 class_name Fighter
 
 
+func init() -> void:
+	$CollisionShape2D.shape.size = $Sprite2D.texture.get_size()
+
 func set_color(co :Color) -> void:
 	$Sprite2D.self_modulate = co
 

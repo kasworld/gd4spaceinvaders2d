@@ -2,6 +2,7 @@ extends Area2D
 class_name UFO
 
 func init(vt :Vector2, co :Color) -> UFO:
+	$CollisionShape2D.shape.size = $Sprite2D.texture.get_size()
 	set_move_vector(vt)
 	set_color(co)
 	return self
