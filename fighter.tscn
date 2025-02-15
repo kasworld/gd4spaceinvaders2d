@@ -6,6 +6,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jayjy"]
 
 [node name="Fighter" type="Area2D"]
+collision_layer = 2
+collision_mask = 16
 script = ExtResource("1_v3n07")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

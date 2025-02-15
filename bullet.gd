@@ -9,14 +9,24 @@ func init(t : Type) -> Bullet:
 	bullet_type = t
 	match bullet_type:
 		Type.Invader1:
+			collision_layer |= 1<<4
+			collision_mask |= (1<<1) | (1<<3)
 			$Sprite2D.texture = preload("res://assets/invader1_bullet.png")
 		Type.Invader2:
+			collision_layer |= 1<<4
+			collision_mask |= (1<<1) | (1<<3)
 			$Sprite2D.texture = preload("res://assets/invader2_bullet.png")
 		Type.Invader3:
+			collision_layer |= 1<<4
+			collision_mask |= (1<<1) | (1<<3)
 			$Sprite2D.texture = preload("res://assets/invader3_bullet.png")
 		Type.UFO:
+			collision_layer |= 1<<4
+			collision_mask |= (1<<1) | (1<<3)
 			$Sprite2D.texture = preload("res://assets/ufo_bullet.png")
 		Type.Fighter:
+			collision_layer |= 1<<3
+			collision_mask |= (1) | (1<<2) | (1<<4)
 			$Sprite2D.texture = preload("res://assets/fighter_bullet.png")
 		_ :
 			print_debug("invalid bullet type ", bullet_type)

@@ -5,6 +5,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_orc87"]
 
 [node name="Bullet" type="Area2D"]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("1_cv4q3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

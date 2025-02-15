@@ -27,6 +27,14 @@ window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
 window/stretch/aspect="ignore"
 
+[layer_names]
+
+2d_physics/layer_1="Invaders"
+2d_physics/layer_2="Fighter"
+2d_physics/layer_3="UFO"
+2d_physics/layer_4="FighterBullet"
+2d_physics/layer_5="EnemyBullet"
+
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true

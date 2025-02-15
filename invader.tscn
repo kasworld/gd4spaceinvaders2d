@@ -5,6 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4wy2"]
 
 [node name="Invader" type="Area2D"]
+collision_mask = 8
 script = ExtResource("1_s4vy7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

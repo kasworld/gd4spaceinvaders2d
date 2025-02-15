@@ -6,6 +6,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_53qvv"]
 
 [node name="UFO" type="Area2D"]
+collision_layer = 4
+collision_mask = 8
 script = ExtResource("1_ktv13")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
