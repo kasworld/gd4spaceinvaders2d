@@ -36,7 +36,7 @@ func get_color() -> Color:
 func next_frame() -> void:
 	$Sprite2D.flip_h = not $Sprite2D.flip_h
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	set_color(NamedColorList.color_list.pick_random()[0])
 
 func _on_timer_timeout() -> void:

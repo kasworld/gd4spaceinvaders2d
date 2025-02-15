@@ -27,14 +27,13 @@ func _ready() -> void:
 	gamefield_size = Vector2(vp_size.x*0.7,vp_size.y)
 	$GameField.position = Vector2(0,0)
 	$GameField.size = gamefield_size
-	var gridsize = get_gridsize()
 	$UI.position = Vector2(gamefield_size.x,0)
 	$UI.size = Vector2(vp_size.x - gamefield_size.x, vp_size.y)
 
 	$GameField/Fighter.init()
 	$GameField/Fighter.position = calc_grid_position(5,GridCount_Y-1)
 	$GameField/Fighter.ended.connect(fighter_explode)
-	$GameField/UFO.init()
+
 	$GameField/UFO.ended.connect(UFO_explode)
 
 	init_invader()
@@ -74,7 +73,6 @@ func init_invader() -> void:
 	alive_invader_count = 5*InvaderCount_X
 
 func invader_explode(inv :Invader) -> void:
-	inv.hide()
 	var pos = inv.position
 	alive_invader_count -=1
 	var o = explode_scene.instantiate().init(Explode.Type.Invader)
@@ -102,7 +100,7 @@ func bullet_explode(bullet :Bullet) -> void:
 func end_explode(o :Explode) ->void:
 	$GameField/Explodes.remove_child(o)
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if $GameField/UFO.visible:
 		move_UFO()
 	elif randi_range(0, 100) == 0:
@@ -164,23 +162,16 @@ func move_bullets() -> void:
 			bullet_explode(o)
 
 func new_UFO() -> void:
-	var gridsize = get_gridsize()
-	var mv_speed = [3,10].pick_random()
 	if randi_range(0, 1) == 0:
-		$GameField/UFO.set_move_vector(Vector2(mv_speed,0))
 		$GameField/UFO.position = calc_grid_position(0,1)
 	else :
-		$GameField/UFO.set_move_vector(Vector2(-mv_speed,0))
 		$GameField/UFO.position = calc_grid_position( GridCount_X,1)
-	$GameField/UFO.show()
-
-func del_UFO() -> void:
-	$GameField/UFO.hide()
+	$GameField/UFO.init()
 
 func move_UFO() -> void:
 	$GameField/UFO.position += $GameField/UFO.get_move_vector()
 	if not get_gamefield_rect().has_point($GameField/UFO.position):
-		del_UFO()
+		$GameField/UFO.deinit()
 	elif randi_range(0, 100) == 0:
 		new_bullet(Bullet.Type.UFO, $GameField/UFO.position ).set_color($GameField/UFO.get_color())
 

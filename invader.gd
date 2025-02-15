@@ -5,7 +5,7 @@ signal ended(o :Invader)
 enum Type {Invader1,Invader2,Invader3}
 enum MoveDir {Right,Down,Left,Up}
 static func get_dir_clockwise(dir:MoveDir) -> MoveDir:
-	return (dir+1)%4
+	return (dir+1)%4 as MoveDir
 static var move_dir_order := [MoveDir.Right,MoveDir.Down,MoveDir.Left,MoveDir.Down]
 
 static var move_vector := [Vector2.ZERO,Vector2.ZERO,Vector2.ZERO,Vector2.ZERO]
@@ -47,7 +47,7 @@ func get_bullet_type() -> Bullet.Type:
 		Type.Invader3:
 			return Bullet.Type.Invader3
 	print_debug("something wrong ", invader_type)
-	return 0
+	return 0 as Bullet.Type
 
 func set_color(co :Color) -> void:
 	$AnimatedSprite2D.self_modulate = co
@@ -62,8 +62,9 @@ func next_frame() -> void:
 func _on_timer_timeout() -> void:
 	next_frame()
 
-func _on_area_entered(area: Area2D) -> void:
+func _on_area_entered(_area: Area2D) -> void:
 	if valid:
+		hide()
 		set_process_mode.call_deferred(PROCESS_MODE_DISABLED)
 		valid = false
 		ended.emit(self)
