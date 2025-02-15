@@ -2,7 +2,6 @@ extends Area2D
 class_name Invader
 
 signal ended(o :Invader)
-
 enum Type {Invader1,Invader2,Invader3}
 enum MoveDir {Right,Down,Left,Up}
 static func get_dir_clockwise(dir:MoveDir) -> MoveDir:
@@ -19,9 +18,11 @@ static func set_move_vector(mv_vt :Vector2) -> void:
 static func get_move_vector(dir :MoveDir) -> Vector2:
 	return move_vector[dir]
 
+var valid :bool
 var invader_type : Type
 func init(t : Type) -> Invader:
 	invader_type = t
+	valid = true
 	match invader_type:
 		Type.Invader1:
 			$AnimatedSprite2D.sprite_frames = preload("res://invader_1_sprite_frame.tres")
@@ -62,4 +63,7 @@ func _on_timer_timeout() -> void:
 	next_frame()
 
 func _on_area_entered(area: Area2D) -> void:
-	ended.emit(self)
+	if valid:
+		set_process_mode.call_deferred(PROCESS_MODE_DISABLED)
+		valid = false
+		ended.emit(self)
