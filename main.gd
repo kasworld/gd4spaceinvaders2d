@@ -20,6 +20,8 @@ func calc_invader_move_area() -> Rect2:
 	return Rect2( calc_grid_position(1,1), calc_grid_position(GridCount_X-2,GridCount_Y-3))
 func invader_move_down_limit() -> float:
 	return calc_invader_move_area().end.y
+func calc_fighter_move_Area() -> Rect2:
+	return Rect2( calc_grid_position(1,GridCount_Y-2), calc_grid_position(GridCount_X-2,GridCount_Y))
 
 func _ready() -> void:
 	var vp_size = get_viewport_rect().size
@@ -136,6 +138,7 @@ func end_explode(o :Explode) ->void:
 	$GameField/Explodes.remove_child(o)
 	if o.explode_type == Explode.Type.Fighter:
 		$GameField/Fighter.init()
+		$GameField/Fighter.position = calc_grid_position(1,GridCount_Y-1)
 
 func _process(_delta: float) -> void:
 	if $GameField/UFO.visible:
@@ -248,8 +251,9 @@ func _unhandled_input(event: InputEvent) -> void:
 var fighter_mv_vt :Vector2
 func move_fighter() -> void:
 	$GameField/Fighter.position += fighter_mv_vt
-	if not get_gamefield_rect().has_point($GameField/Fighter.position):
-		$GameField/Fighter.position = $GameField/Fighter.position.clamp(Vector2.ZERO, gamefield_size)
+	var t = calc_fighter_move_Area()
+	if not t.has_point($GameField/Fighter.position):
+		$GameField/Fighter.position = $GameField/Fighter.position.clamp(t.position, t.end)
 
 func _on_demo_mode_pressed() -> void:
 	automove_fighter = not automove_fighter
