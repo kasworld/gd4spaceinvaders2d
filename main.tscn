@@ -27,6 +27,7 @@ autostart = true
 
 [node name="GameField" type="Panel" parent="."]
 clip_contents = true
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_4a43i")
 
 [node name="Explodes" type="Node2D" parent="GameField"]
@@ -46,6 +47,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+focus_mode = 2
 
 [node name="Title" type="Label" parent="UI"]
 layout_mode = 2
@@ -63,3 +65,12 @@ label_settings = SubResource("LabelSettings_4doqw")
 [node name="Stage" type="Label" parent="UI"]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_364tu")
+
+[node name="DemoMode" type="Button" parent="UI"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+toggle_mode = true
+text = "DemoMode
+"
+
+[connection signal="toggled" from="UI/DemoMode" to="." method="_on_demo_mode_toggled"]
