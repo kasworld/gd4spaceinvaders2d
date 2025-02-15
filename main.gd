@@ -20,7 +20,7 @@ func calc_invader_move_area() -> Rect2:
 	return Rect2( calc_grid_position(1,1), calc_grid_position(GridCount_X-2,GridCount_Y-3))
 func invader_move_down_limit() -> float:
 	return calc_invader_move_area().end.y
-func calc_fighter_move_Area() -> Rect2:
+func calc_fighter_move_area() -> Rect2:
 	return Rect2( calc_grid_position(1,GridCount_Y-2), calc_grid_position(GridCount_X-2,GridCount_Y))
 
 func _ready() -> void:
@@ -251,7 +251,7 @@ func _unhandled_input(event: InputEvent) -> void:
 var fighter_mv_vt :Vector2
 func move_fighter() -> void:
 	$GameField/Fighter.position += fighter_mv_vt
-	var t = calc_fighter_move_Area()
+	var t = calc_fighter_move_area()
 	if not t.has_point($GameField/Fighter.position):
 		$GameField/Fighter.position = $GameField/Fighter.position.clamp(t.position, t.end)
 
