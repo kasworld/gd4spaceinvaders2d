@@ -33,6 +33,7 @@ func _ready() -> void:
 	$GameField/Fighter.ended.connect(fighter_explode)
 	$GameField/UFO.ended.connect(UFO_explode)
 
+	_on_demo_mode_pressed()
 	$GameField.grab_focus.call_deferred()
 	new_game()
 
@@ -228,7 +229,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.keycode == KEY_ESCAPE:
 			get_tree().quit()
 		elif event.keycode == KEY_ENTER:
-			$UI/DemoMode.button_pressed = not automove_fighter
+			_on_demo_mode_pressed()
 		elif event.keycode == KEY_SPACE:
 			add_fighter_bullet()
 		elif event.keycode == KEY_LEFT:
@@ -247,9 +248,9 @@ func move_fighter() -> void:
 	if not get_gamefield_rect().has_point($GameField/Fighter.position):
 		$GameField/Fighter.position = $GameField/Fighter.position.clamp(Vector2.ZERO, gamefield_size)
 
-func _on_demo_mode_toggled(toggled_on: bool) -> void:
-	automove_fighter = toggled_on
-	if toggled_on:
+func _on_demo_mode_pressed() -> void:
+	automove_fighter = not automove_fighter
+	if automove_fighter:
 		$UI/DemoMode.text = "Auto control"
 	else :
 		$UI/DemoMode.text = "Key control"
