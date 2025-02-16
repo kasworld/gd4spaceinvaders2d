@@ -1,8 +1,8 @@
 extends Node
 
-const InvaderCount_X = 11
 const Grid_X = 13
 const Grid_Y = 14
+const InvaderCount_X = Grid_X - 2
 
 const Invader_Rows = [
 	Invader.Type.Invader3,
