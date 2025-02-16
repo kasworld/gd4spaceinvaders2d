@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://vndwtwcsdgv"]
+[gd_scene load_steps=8 format=3 uid="uid://vndwtwcsdgv"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_8or64"]
 [ext_resource type="PackedScene" uid="uid://dgjqdwxpxrmjb" path="res://game.tscn" id="2_ucbkd"]
@@ -6,13 +6,16 @@
 [sub_resource type="LabelSettings" id="LabelSettings_ksp6n"]
 font_size = 40
 
+[sub_resource type="LabelSettings" id="LabelSettings_th3hu"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_364tu"]
+font_size = 48
+
 [sub_resource type="LabelSettings" id="LabelSettings_4ggli"]
 font_size = 48
 
 [sub_resource type="LabelSettings" id="LabelSettings_4doqw"]
-font_size = 48
-
-[sub_resource type="LabelSettings" id="LabelSettings_364tu"]
 font_size = 48
 
 [node name="Main" type="Node2D"]
@@ -35,6 +38,14 @@ layout_mode = 2
 text = "Space Invaders by Godot4"
 label_settings = SubResource("LabelSettings_ksp6n")
 
+[node name="GameCount" type="Label" parent="UI"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_th3hu")
+
+[node name="Stage" type="Label" parent="UI"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_364tu")
+
 [node name="Score" type="Label" parent="UI"]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_4ggli")
@@ -42,10 +53,6 @@ label_settings = SubResource("LabelSettings_4ggli")
 [node name="Fighter" type="Label" parent="UI"]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_4doqw")
-
-[node name="Stage" type="Label" parent="UI"]
-layout_mode = 2
-label_settings = SubResource("LabelSettings_364tu")
 
 [node name="DemoMode" type="Button" parent="UI"]
 layout_mode = 2

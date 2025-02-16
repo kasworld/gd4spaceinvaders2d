@@ -2,6 +2,7 @@ extends Panel
 class_name Game
 
 signal score_changed()
+signal game_ended()
 
 const InvaderCount_X = 11
 const GridCount_X = 13
@@ -33,6 +34,7 @@ func _ready() -> void:
 var score := 0
 var stage := 0
 var fighter_dead := 0
+var game_playing: bool
 func new_game() -> void:
 	score = 0
 	fighter_dead = 0
@@ -42,6 +44,11 @@ func new_game() -> void:
 	$Fighter.position = calc_grid_position(1,GridCount_Y-1)
 	$UFO.deinit()
 	init_invader()
+	game_playing = true
+
+func game_end() -> void:
+	game_playing = false
+	game_ended.emit()
 
 func next_stage() -> void:
 	stage += 1
@@ -101,6 +108,7 @@ func UFO_explode(ufo :UFO) -> void:
 	o.ended.connect(end_explode)
 
 func fighter_explode(fighter :Fighter) -> void:
+	score_changed.emit()
 	$Fighter.deinit()
 	fighter_dead += 1
 	var pos = fighter.position
@@ -121,6 +129,8 @@ func end_explode(o :Explode) ->void:
 		$Fighter.position = calc_grid_position(1,GridCount_Y-1)
 
 func _process(_delta: float) -> void:
+	if not game_playing :
+		return
 	if $UFO.visible:
 		move_UFO()
 	elif randi_range(0, 100) == 0:
@@ -162,8 +172,7 @@ func move_invaders() -> void:
 	if not calc_invader_move_area().has_point(o.position):
 		need_change_dir = true
 		if o.position.y > invader_move_down_limit():
-			print("lose game")
-			new_game.call_deferred()
+			game_end()
 	invader_move_dir_next()
 
 func invader_move_dir_next() -> bool:
