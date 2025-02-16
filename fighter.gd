@@ -6,8 +6,9 @@ signal ended(o :Fighter)
 #const BulletCountLimit = 2
 #const BulletNextFireSec = 0.3
 
-const BulletCountLimit = 200
-const BulletNextFireSec = 0.03
+# for demo mode
+const BulletCountLimit = 10
+const BulletNextFireSec = 0.1
 
 var valid :bool
 func init() -> Fighter:
