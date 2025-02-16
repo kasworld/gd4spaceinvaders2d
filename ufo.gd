@@ -3,20 +3,23 @@ class_name UFO
 
 signal ended(o :UFO)
 
+enum MoveDir {Left,Right}
+enum MoveSpeed {Low,High}
+
 const Score = [100,500]
-var score := 0
+const Speed = [3,10]
+
+var speed :MoveSpeed
+var move_dir :MoveDir
+var move_vector :Vector2
 var valid :bool
-func init() -> UFO:
-	var mv_speed = [3,10].pick_random()
-	match mv_speed:
-		3:
-			score = 100
-		10:
-			score = 500
-	if randi_range(0, 1) == 0:
-		set_move_vector(Vector2(mv_speed,0))
-	else :
-		set_move_vector(Vector2(-mv_speed,0))
+func init(dir :MoveDir, spd :MoveSpeed) -> UFO:
+	speed = spd
+	move_dir = dir
+	if move_dir == MoveDir.Right:
+		set_move_vector(Vector2(Speed[speed],0) )
+	else:
+		set_move_vector(Vector2(-Speed[speed],0) )
 	show()
 	set_process_mode.call_deferred(PROCESS_MODE_INHERIT)
 	valid = true
@@ -39,7 +42,6 @@ func get_color() -> Color:
 func next_frame() -> void:
 	pass
 
-var move_vector :Vector2
 func set_move_vector( vt :Vector2 ) -> void:
 	move_vector = vt
 

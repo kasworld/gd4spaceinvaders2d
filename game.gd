@@ -146,7 +146,7 @@ func end_explode(o :Explode) ->void:
 func _process(_delta: float) -> void:
 	if not game_playing :
 		return
-	if $UFO.visible:
+	if $UFO.valid:
 		move_UFO()
 	elif randi_range(0, 100) == 0:
 		new_UFO()
@@ -224,11 +224,16 @@ func move_bullets() -> void:
 			bullet_explode(o)
 
 func new_UFO() -> void:
+	var pos :Vector2
+	var dir :UFO.MoveDir
 	if randi_range(0, 1) == 0:
-		$UFO.position = calc_grid_position(0,1)
+		pos = calc_grid_position(0,1)
+		dir = UFO.MoveDir.Right
 	else :
-		$UFO.position = calc_grid_position( GridCount_X,1)
-	$UFO.init()
+		pos = calc_grid_position( GridCount_X,1)
+		dir = UFO.MoveDir.Left
+	$UFO.position = pos
+	$UFO.init( dir, [UFO.MoveSpeed.Low, UFO.MoveSpeed.High].pick_random() )
 
 func move_UFO() -> void:
 	$UFO.position += $UFO.get_move_vector()
