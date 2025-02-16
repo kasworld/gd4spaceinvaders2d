@@ -202,7 +202,7 @@ func new_bullet(t :Bullet.Type, p :Vector2) -> Bullet:
 	return o
 
 func add_fighter_bullet() -> void:
-	if (Time.get_unix_time_from_system() - last_fighter_bullet_fire_time) > Fighter.BulletNextFireSec and current_fighter_bullet_count < Fighter.BulletCountLimit:
+	if (Time.get_unix_time_from_system() - last_fighter_bullet_fire_time) > Settings.BulletNextFireSec and current_fighter_bullet_count < Settings.BulletCountLimit:
 		new_bullet(Bullet.Type.Fighter, $Fighter.position ).set_color($Fighter.get_color())
 		last_fighter_bullet_fire_time = Time.get_unix_time_from_system()
 		current_fighter_bullet_count +=1

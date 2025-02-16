@@ -11,3 +11,10 @@ const Invader_Rows = [
 	Invader.Type.Invader1,
 	Invader.Type.Invader1,
 	]
+
+#const BulletCountLimit = 2
+#const BulletNextFireSec = 0.3
+
+# for demo mode
+const BulletCountLimit = 10
+const BulletNextFireSec = 0.1
