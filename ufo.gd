@@ -17,9 +17,9 @@ func init(dir :MoveDir, spd :MoveSpeed) -> UFO:
 	speed = spd
 	move_dir = dir
 	if move_dir == MoveDir.Right:
-		set_move_vector(Vector2(Speed[speed],0) )
+		move_vector = Vector2(Speed[speed],0)
 	else:
-		set_move_vector(Vector2(-Speed[speed],0) )
+		move_vector = Vector2(-Speed[speed],0)
 	show()
 	set_process_mode.call_deferred(PROCESS_MODE_INHERIT)
 	valid = true
@@ -42,8 +42,11 @@ func get_color() -> Color:
 func next_frame() -> void:
 	pass
 
-func set_move_vector( vt :Vector2 ) -> void:
-	move_vector = vt
+#func set_move_vector( vt :Vector2 ) -> void:
+	#move_vector = vt
+
+func get_score() -> int:
+	return Score[speed]
 
 func get_move_vector() -> Vector2:
 	return move_vector

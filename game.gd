@@ -113,7 +113,7 @@ func invader_explode(inv :Invader) -> void:
 	o.ended.connect(end_explode)
 
 func UFO_explode(ufo :UFO) -> void:
-	score += ufo.score
+	score += ufo.get_score()
 	ui_data_changed.emit()
 	var pos = ufo.position
 	var o = explode_scene.instantiate().init(Explode.Type.UFO)
