@@ -79,11 +79,11 @@ func init_invader() -> void:
 	Invader.set_move_vector(Vector2(20,20))
 
 	var stage_y_inc = stage * Invader.get_move_vector(Settings.MoveDir.Down).y
-	if stage_y_inc > calc_grid_position(0,Settings.Grid_Y-Settings.Invader_Rows.size()-2).y:
-		stage_y_inc = calc_grid_position(0,Settings.Grid_Y-Settings.Invader_Rows.size()-4).y
-	for j in Settings.Invader_Rows.size():
+	if stage_y_inc > calc_grid_position(0,Settings.Grid_Y-Settings.InvaderRows.size()-2).y:
+		stage_y_inc = calc_grid_position(0,Settings.Grid_Y-Settings.InvaderRows.size()-4).y
+	for j in Settings.InvaderRows.size():
 		for i in Settings.InvaderCount_X:
-			var o = invader_scene.instantiate().init(Settings.Invader_Rows[j])
+			var o = invader_scene.instantiate().init(Settings.InvaderRows[j])
 			$Invaders.add_child(o)
 			o.position = calc_grid_position(i+1,j+2)
 			o.position.y += stage_y_inc

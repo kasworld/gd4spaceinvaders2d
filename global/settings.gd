@@ -4,7 +4,7 @@ const Grid_X = 13
 const Grid_Y = 14
 const InvaderCount_X = Grid_X - 2
 
-const Invader_Rows = [
+const InvaderRows = [
 	Invader.Type.Invader3,
 	Invader.Type.Invader2,
 	Invader.Type.Invader2,
