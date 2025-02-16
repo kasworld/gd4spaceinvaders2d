@@ -6,7 +6,6 @@ signal ended(o :UFO)
 enum MoveDir {Left,Right}
 enum MoveSpeed {Low,High}
 
-const Score = [100,500]
 const Speed = [3,10]
 
 var speed :MoveSpeed
@@ -42,11 +41,8 @@ func get_color() -> Color:
 func next_frame() -> void:
 	pass
 
-#func set_move_vector( vt :Vector2 ) -> void:
-	#move_vector = vt
-
 func get_score() -> int:
-	return Score[speed]
+	return Settings.UFOScore[speed]
 
 func get_move_vector() -> Vector2:
 	return move_vector

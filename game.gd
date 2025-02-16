@@ -93,7 +93,7 @@ func init_invader() -> void:
 	alive_invader_count = 5*Settings.InvaderCount_X
 
 func invader_explode(inv :Invader) -> void:
-	score += Invader.Score[inv.get_type()]
+	score += inv.get_score()
 	ui_data_changed.emit()
 	var pos = inv.position
 	alive_invader_count -=1

@@ -18,3 +18,9 @@ const Invader_Rows = [
 # for demo mode
 const BulletCountLimit = 10
 const BulletNextFireSec = 0.1
+
+# Invader.Type {Invader1,Invader2,Invader3}
+const InvaderScore = [10,30,50]
+
+# UFO.MoveSpeed {Low,High}
+const UFOScore = [100,500]
