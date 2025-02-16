@@ -1,7 +1,7 @@
 extends Panel
 class_name Game
 
-signal score_changed()
+signal ui_data_changed()
 signal game_ended()
 
 const InvaderCount_X = 11
@@ -39,7 +39,7 @@ func new_game() -> void:
 	score = 0
 	fighter_dead = 0
 	stage = 0
-	score_changed.emit()
+	ui_data_changed.emit()
 	clear_bullets()
 	$Fighter.position = calc_grid_position(1,GridCount_Y-1)
 	$UFO.deinit()
@@ -52,7 +52,7 @@ func game_end() -> void:
 
 func next_stage() -> void:
 	stage += 1
-	score_changed.emit()
+	ui_data_changed.emit()
 	clear_bullets()
 	$Fighter.position = calc_grid_position(1,GridCount_Y-1)
 	$UFO.deinit()
@@ -90,7 +90,7 @@ func init_invader() -> void:
 
 func invader_explode(inv :Invader) -> void:
 	score += Invader.Score[inv.get_type()]
-	score_changed.emit()
+	ui_data_changed.emit()
 	var pos = inv.position
 	alive_invader_count -=1
 	var o = explode_scene.instantiate().init(Explode.Type.Invader)
@@ -100,7 +100,7 @@ func invader_explode(inv :Invader) -> void:
 
 func UFO_explode(ufo :UFO) -> void:
 	score += ufo.score
-	score_changed.emit()
+	ui_data_changed.emit()
 	var pos = ufo.position
 	var o = explode_scene.instantiate().init(Explode.Type.UFO)
 	o.position = pos
@@ -108,9 +108,9 @@ func UFO_explode(ufo :UFO) -> void:
 	o.ended.connect(end_explode)
 
 func fighter_explode(fighter :Fighter) -> void:
-	score_changed.emit()
 	$Fighter.deinit()
 	fighter_dead += 1
+	ui_data_changed.emit()
 	var pos = fighter.position
 	var o = explode_scene.instantiate().init(Explode.Type.Fighter)
 	o.position = pos
