@@ -74,11 +74,11 @@ func next_stage() -> void:
 func clear_bullets() -> void:
 	current_fighter_bullet_count	 = 0
 	for o in $Bullets.get_children():
-		$Bullets.remove_child(o)
+		o.queue_free()
 
 func init_invader() -> void:
 	for o in $Invaders.get_children():
-		$Invaders.remove_child(o)
+		o.queue_free()
 	current_moving_invader_num = 0
 	invader_move_dir_order = 0
 	invader_need_change_dir = false
@@ -133,12 +133,12 @@ func fighter_explode(fighter :Fighter) -> void:
 	o.ended.connect(end_explode)
 
 func bullet_explode(bullet :Bullet) -> void:
-	$Bullets.remove_child.call_deferred(bullet)
+	bullet.queue_free()
 	if bullet.bullet_type == Bullet.Type.Fighter:
 		current_fighter_bullet_count -=1
 
 func end_explode(o :Explode) ->void:
-	$Explodes.remove_child(o)
+	o.queue_free()
 	if o.explode_type == Explode.Type.Fighter:
 		$Fighter.init()
 		$Fighter.position = calc_grid_position(1,GridCount_Y-1)
