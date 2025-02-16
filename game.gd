@@ -67,26 +67,18 @@ func init_invader() -> void:
 	need_change_dir = false
 	Invader.set_move_vector(Vector2(20,20))
 
-	for i in InvaderCount_X:
-		var o = invader_scene.instantiate().init(Invader.Type.Invader3)
-		$Invaders.add_child(o)
-		o.position = calc_grid_position(i+1,2)
-
-	for j in 2:
+	var i_type = [
+		Invader.Type.Invader3,
+		Invader.Type.Invader2,
+		Invader.Type.Invader2,
+		Invader.Type.Invader1,
+		Invader.Type.Invader1 ]
+	for j in i_type.size():
 		for i in InvaderCount_X:
-			var o = invader_scene.instantiate().init(Invader.Type.Invader2)
+			var o = invader_scene.instantiate().init(i_type[j])
 			$Invaders.add_child(o)
-			o.position = calc_grid_position(i+1,j+3)
-
-	for j in 2:
-		for i in InvaderCount_X:
-			var o = invader_scene.instantiate().init(Invader.Type.Invader1)
-			$Invaders.add_child(o)
-			o.position = calc_grid_position(i+1,j+5)
-
-	for o in $Invaders.get_children():
-		o.ended.connect(invader_explode)
-
+			o.position = calc_grid_position(i+1,j+2)
+			o.ended.connect(invader_explode)
 	alive_invader_count = 5*InvaderCount_X
 
 func invader_explode(inv :Invader) -> void:
@@ -226,9 +218,7 @@ func move_UFO() -> void:
 # esc to exit
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():
-		if event.keycode == KEY_ESCAPE:
-			get_tree().quit()
-		elif event.keycode == KEY_SPACE:
+		if event.keycode == KEY_SPACE:
 			add_fighter_bullet()
 		elif event.keycode == KEY_LEFT:
 			fighter_mv_vt = Vector2(-6,0)
