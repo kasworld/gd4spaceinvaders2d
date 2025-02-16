@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://vndwtwcsdgv"]
+[gd_scene load_steps=7 format=3 uid="uid://vndwtwcsdgv"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_8or64"]
-[ext_resource type="PackedScene" uid="uid://cwbcb8kpfjdoy" path="res://ufo.tscn" id="2_foe23"]
-[ext_resource type="PackedScene" uid="uid://doco76o0vtsxu" path="res://fighter.tscn" id="3_yb8rn"]
+[ext_resource type="PackedScene" uid="uid://dgjqdwxpxrmjb" path="res://game.tscn" id="2_ucbkd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ksp6n"]
 font_size = 40
@@ -16,11 +15,10 @@ font_size = 48
 [sub_resource type="LabelSettings" id="LabelSettings_364tu"]
 font_size = 48
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4a43i"]
-bg_color = Color(0, 0, 0, 1)
-
 [node name="Main" type="Node2D"]
 script = ExtResource("1_8or64")
+
+[node name="Game" parent="." instance=ExtResource("2_ucbkd")]
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
@@ -54,22 +52,5 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "DemoMode
 "
-
-[node name="GameField" type="Panel" parent="."]
-clip_contents = true
-focus_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_4a43i")
-
-[node name="Explodes" type="Node2D" parent="GameField"]
-z_index = 1
-
-[node name="Bullets" type="Node2D" parent="GameField"]
-
-[node name="UFO" parent="GameField" instance=ExtResource("2_foe23")]
-visible = false
-
-[node name="Fighter" parent="GameField" instance=ExtResource("3_yb8rn")]
-
-[node name="Invaders" type="Node2D" parent="GameField"]
 
 [connection signal="pressed" from="UI/DemoMode" to="." method="_on_demo_mode_pressed"]
