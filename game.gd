@@ -124,6 +124,7 @@ func UFO_explode(ufo :UFO) -> void:
 func fighter_explode(fighter :Fighter) -> void:
 	$Fighter.deinit()
 	fighter_dead += 1
+	clear_bullets()
 	ui_data_changed.emit()
 	var pos = fighter.position
 	var o = explode_scene.instantiate().init(Explode.Type.Fighter)
@@ -156,6 +157,8 @@ func _process(_delta: float) -> void:
 	move_fighter()
 
 func fighter_auto() -> void:
+	if not $Fighter.valid:
+		return
 	match randi_range(0,100):
 		0,1,2,3,4:
 			fighter_mv_vt = Vector2(-6,0)
@@ -250,6 +253,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			fighter_mv_vt = Vector2(0,0)
 
 func move_fighter() -> void:
+	if not $Fighter.valid:
+		return
 	$Fighter.position += fighter_mv_vt
 	var t = calc_fighter_move_area()
 	if not t.has_point($Fighter.position):
