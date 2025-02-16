@@ -24,3 +24,8 @@ const InvaderScore = [10,30,50]
 
 # UFO.MoveSpeed {Low,High}
 const UFOScore = [100,500]
+
+enum MoveDir {Right,Down,Left,Up}
+static func get_dir_clockwise(dir:MoveDir) -> MoveDir:
+	return (dir+1)%4 as MoveDir
+static var invader_move_dir_order := [MoveDir.Right,MoveDir.Down,MoveDir.Left,MoveDir.Down]

@@ -3,7 +3,6 @@ class_name Fighter
 
 signal ended(o :Fighter)
 
-
 var valid :bool
 func init() -> Fighter:
 	show()

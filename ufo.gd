@@ -3,22 +3,24 @@ class_name UFO
 
 signal ended(o :UFO)
 
-enum MoveDir {Left,Right}
 enum MoveSpeed {Low,High}
 
 const Speed = [3,10]
 
 var speed :MoveSpeed
-var move_dir :MoveDir
+var move_dir :Settings.MoveDir
 var move_vector :Vector2
 var valid :bool
-func init(dir :MoveDir, spd :MoveSpeed) -> UFO:
+func init(dir :Settings.MoveDir, spd :MoveSpeed) -> UFO:
 	speed = spd
 	move_dir = dir
-	if move_dir == MoveDir.Right:
-		move_vector = Vector2(Speed[speed],0)
-	else:
-		move_vector = Vector2(-Speed[speed],0)
+	match move_dir:
+		Settings.MoveDir.Right:
+			move_vector = Vector2(Speed[speed],0)
+		Settings.MoveDir.Left:
+			move_vector = Vector2(-Speed[speed],0)
+		_:
+			print_debug("invalid MoveDir ", move_dir)
 	show()
 	set_process_mode.call_deferred(PROCESS_MODE_INHERIT)
 	valid = true

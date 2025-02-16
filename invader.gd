@@ -4,19 +4,15 @@ class_name Invader
 signal ended(o :Invader)
 
 enum Type {Invader1,Invader2,Invader3}
-enum MoveDir {Right,Down,Left,Up}
-static func get_dir_clockwise(dir:MoveDir) -> MoveDir:
-	return (dir+1)%4 as MoveDir
-static var move_dir_order := [MoveDir.Right,MoveDir.Down,MoveDir.Left,MoveDir.Down]
 
 static var move_vector := [Vector2.ZERO,Vector2.ZERO,Vector2.ZERO,Vector2.ZERO]
 static func set_move_vector(mv_vt :Vector2) -> void:
-	move_vector[MoveDir.Right] = Vector2(mv_vt.x,0)
-	move_vector[MoveDir.Left] = Vector2(-mv_vt.x,0)
-	move_vector[MoveDir.Up] = Vector2(0,-mv_vt.y)
-	move_vector[MoveDir.Down] = Vector2(0,mv_vt.y)
+	move_vector[Settings.MoveDir.Right] = Vector2(mv_vt.x,0)
+	move_vector[Settings.MoveDir.Left] = Vector2(-mv_vt.x,0)
+	move_vector[Settings.MoveDir.Up] = Vector2(0,-mv_vt.y)
+	move_vector[Settings.MoveDir.Down] = Vector2(0,mv_vt.y)
 
-static func get_move_vector(dir :MoveDir) -> Vector2:
+static func get_move_vector(dir :Settings.MoveDir) -> Vector2:
 	return move_vector[dir]
 
 var valid :bool

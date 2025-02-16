@@ -8,8 +8,6 @@ var invader_scene = preload("res://invader.tscn")
 var bullet_scene = preload("res://bullet.tscn")
 var explode_scene = preload("res://explode.tscn")
 
-func get_gamefield_rect() -> Rect2:
-	return Rect2(Vector2.ZERO, size)
 func get_gridsize() -> Vector2:
 	return Vector2(size.x / Settings.Grid_X, size.y / Settings.Grid_Y)
 func calc_grid_position(x :float, y :float) -> Vector2:
@@ -80,7 +78,7 @@ func init_invader() -> void:
 	invader_need_change_dir = false
 	Invader.set_move_vector(Vector2(20,20))
 
-	var stage_y_inc = stage * Invader.get_move_vector(Invader.MoveDir.Down).y
+	var stage_y_inc = stage * Invader.get_move_vector(Settings.MoveDir.Down).y
 	if stage_y_inc > calc_grid_position(0,Settings.Grid_Y-Settings.Invader_Rows.size()-2).y:
 		stage_y_inc = calc_grid_position(0,Settings.Grid_Y-Settings.Invader_Rows.size()-4).y
 	for j in Settings.Invader_Rows.size():
@@ -170,7 +168,7 @@ func move_invaders() -> void:
 			return
 	var o = $Invaders.get_child(current_moving_invader_num)
 
-	var move_dir = Invader.move_dir_order[invader_move_dir_order]
+	var move_dir = Settings.invader_move_dir_order[invader_move_dir_order]
 	o.position += Invader.get_move_vector( move_dir )
 	o.next_frame()
 	if randi_range(0, 100) == 0:
@@ -183,13 +181,13 @@ func move_invaders() -> void:
 
 func invader_move_dir_next() -> bool:
 	current_moving_invader_num += 1
-	var move_dir = Invader.move_dir_order[invader_move_dir_order]
+	var move_dir = Settings.invader_move_dir_order[invader_move_dir_order]
 	if current_moving_invader_num >= $Invaders.get_child_count():
 		current_moving_invader_num = 0
 		# change move vector
-		if move_dir == Invader.MoveDir.Down or invader_need_change_dir:
+		if move_dir == Settings.MoveDir.Down or invader_need_change_dir:
 			invader_move_dir_order +=1
-			invader_move_dir_order %= Invader.move_dir_order.size()
+			invader_move_dir_order %= Settings.invader_move_dir_order.size()
 		invader_need_change_dir = false
 		return true
 	return false
@@ -210,24 +208,24 @@ func add_fighter_bullet() -> void:
 func move_bullets() -> void:
 	for o in $Bullets.get_children():
 		o.position += o.get_move_vector()
-		if not get_gamefield_rect().has_point(o.position):
+		if not get_rect().has_point(o.position):
 			bullet_explode(o)
 
 func new_UFO() -> void:
 	var pos :Vector2
-	var dir :UFO.MoveDir
+	var dir :Settings.MoveDir
 	if randi_range(0, 1) == 0:
 		pos = calc_grid_position(0,1)
-		dir = UFO.MoveDir.Right
+		dir = Settings.MoveDir.Right
 	else :
 		pos = calc_grid_position( Settings.Grid_X,1)
-		dir = UFO.MoveDir.Left
+		dir = Settings.MoveDir.Left
 	$UFO.position = pos
 	$UFO.init( dir, [UFO.MoveSpeed.Low, UFO.MoveSpeed.High].pick_random() )
 
 func move_UFO() -> void:
 	$UFO.position += $UFO.get_move_vector()
-	if not get_gamefield_rect().has_point($UFO.position):
+	if not get_rect().has_point($UFO.position):
 		$UFO.deinit()
 	elif randi_range(0, 100) == 0:
 		new_bullet(Bullet.Type.UFO, $UFO.position ).set_color($UFO.get_color())
