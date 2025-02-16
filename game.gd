@@ -4,10 +4,6 @@ class_name Game
 signal ui_data_changed()
 signal game_ended()
 
-const InvaderCount_X = 11
-const GridCount_X = 13
-const GridCount_Y = 14
-
 var invader_scene = preload("res://invader.tscn")
 var bullet_scene = preload("res://bullet.tscn")
 var explode_scene = preload("res://explode.tscn")
@@ -15,16 +11,16 @@ var explode_scene = preload("res://explode.tscn")
 func get_gamefield_rect() -> Rect2:
 	return Rect2(Vector2.ZERO, size)
 func get_gridsize() -> Vector2:
-	return Vector2(size.x / GridCount_X, size.y / GridCount_Y)
+	return Vector2(size.x / Settings.Grid_X, size.y / Settings.Grid_Y)
 func calc_grid_position(x :float, y :float) -> Vector2:
 	var gridsize = get_gridsize()
 	return Vector2(x*gridsize.x,y*gridsize.y)
 func calc_invader_move_area() -> Rect2:
-	return Rect2( calc_grid_position(1,1), calc_grid_position(GridCount_X-2,GridCount_Y-3))
+	return Rect2( calc_grid_position(1,1), calc_grid_position(Settings.Grid_X-2,Settings.Grid_Y-3))
 func invader_move_down_limit() -> float:
 	return calc_invader_move_area().end.y
 func calc_fighter_move_area() -> Rect2:
-	return Rect2( calc_grid_position(1,GridCount_Y-2), calc_grid_position(GridCount_X-2,GridCount_Y))
+	return Rect2( calc_grid_position(1,Settings.Grid_Y-2), calc_grid_position(Settings.Grid_X-2,Settings.Grid_Y))
 
 func _ready() -> void:
 	$Fighter.init()
@@ -54,7 +50,7 @@ func new_game() -> void:
 	stage = 1
 	ui_data_changed.emit()
 	clear_bullets()
-	$Fighter.position = calc_grid_position(1,GridCount_Y-1)
+	$Fighter.position = calc_grid_position(1,Settings.Grid_Y-1)
 	$UFO.deinit()
 	init_invader()
 	game_playing = true
@@ -67,7 +63,7 @@ func next_stage() -> void:
 	stage += 1
 	ui_data_changed.emit()
 	clear_bullets()
-	$Fighter.position = calc_grid_position(1,GridCount_Y-1)
+	$Fighter.position = calc_grid_position(1,Settings.Grid_Y-1)
 	$UFO.deinit()
 	init_invader()
 
@@ -84,23 +80,17 @@ func init_invader() -> void:
 	invader_need_change_dir = false
 	Invader.set_move_vector(Vector2(20,20))
 
-	var i_type = [
-		Invader.Type.Invader3,
-		Invader.Type.Invader2,
-		Invader.Type.Invader2,
-		Invader.Type.Invader1,
-		Invader.Type.Invader1 ]
 	var stage_y_inc = stage * Invader.get_move_vector(Invader.MoveDir.Down).y
-	if stage_y_inc > calc_grid_position(0,GridCount_Y-i_type.size()-2).y:
-		stage_y_inc = calc_grid_position(0,GridCount_Y-i_type.size()-4).y
-	for j in i_type.size():
-		for i in InvaderCount_X:
-			var o = invader_scene.instantiate().init(i_type[j])
+	if stage_y_inc > calc_grid_position(0,Settings.Grid_Y-Settings.Invader_Rows.size()-2).y:
+		stage_y_inc = calc_grid_position(0,Settings.Grid_Y-Settings.Invader_Rows.size()-4).y
+	for j in Settings.Invader_Rows.size():
+		for i in Settings.InvaderCount_X:
+			var o = invader_scene.instantiate().init(Settings.Invader_Rows[j])
 			$Invaders.add_child(o)
 			o.position = calc_grid_position(i+1,j+2)
 			o.position.y += stage_y_inc
 			o.ended.connect(invader_explode)
-	alive_invader_count = 5*InvaderCount_X
+	alive_invader_count = 5*Settings.InvaderCount_X
 
 func invader_explode(inv :Invader) -> void:
 	score += Invader.Score[inv.get_type()]
@@ -141,7 +131,7 @@ func end_explode(o :Explode) ->void:
 	o.queue_free()
 	if o.explode_type == Explode.Type.Fighter:
 		$Fighter.init()
-		$Fighter.position = calc_grid_position(1,GridCount_Y-1)
+		$Fighter.position = calc_grid_position(1,Settings.Grid_Y-1)
 
 func _process(_delta: float) -> void:
 	if not game_playing :
@@ -230,7 +220,7 @@ func new_UFO() -> void:
 		pos = calc_grid_position(0,1)
 		dir = UFO.MoveDir.Right
 	else :
-		pos = calc_grid_position( GridCount_X,1)
+		pos = calc_grid_position( Settings.Grid_X,1)
 		dir = UFO.MoveDir.Left
 	$UFO.position = pos
 	$UFO.init( dir, [UFO.MoveSpeed.Low, UFO.MoveSpeed.High].pick_random() )

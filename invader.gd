@@ -2,6 +2,7 @@ extends Area2D
 class_name Invader
 
 signal ended(o :Invader)
+
 enum Type {Invader1,Invader2,Invader3}
 const Score = [10,30,50]
 enum MoveDir {Right,Down,Left,Up}

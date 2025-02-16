@@ -20,6 +20,7 @@ config/icon="res://assets/invader2_1.png"
 [autoload]
 
 NamedColorList="*res://global/named_color_list.gd"
+Settings="*res://global/settings.gd"
 
 [display]
 
