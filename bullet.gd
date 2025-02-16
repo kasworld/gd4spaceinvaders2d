@@ -4,7 +4,13 @@ class_name Bullet
 signal ended(o :Bullet)
 
 enum Type {Invader1,Invader2,Invader3,UFO,Fighter}
-
+var move_vt = [
+	Vector2(0,5),
+	Vector2(0,6),
+	Vector2(0,7),
+	Vector2(0,8),
+	Vector2(0,-6),
+]
 var bullet_type : Type
 
 func init(t : Type) -> Bullet:
@@ -48,16 +54,7 @@ func next_frame() -> void:
 	$Sprite2D.flip_h = not $Sprite2D.flip_h
 
 func get_move_vector() -> Vector2:
-	match bullet_type:
-		Type.Invader1, Type.Invader2, Type.Invader3, Type.UFO:
-			# move downward
-			return Vector2(0,4)
-		Type.Fighter:
-			# move upward
-			return Vector2(0,-4)
-		_ :
-			print_debug("invalid bullet type ", bullet_type)
-	return Vector2.ZERO
+	return move_vt[bullet_type]
 
 func _on_timer_timeout() -> void:
 	next_frame()

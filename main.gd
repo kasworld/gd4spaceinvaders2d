@@ -11,6 +11,7 @@ func _ready() -> void:
 	$UI.size = Vector2(vp_size.x - gamefield_size.x, vp_size.y)
 	$Game.ui_data_changed.connect(update_ui_data)
 	$Game.game_ended.connect(start_game)
+	$Game.automove_fighter = true
 	start_game()
 
 func start_game() -> void:

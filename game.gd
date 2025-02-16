@@ -6,7 +6,7 @@ signal game_ended()
 
 const InvaderCount_X = 11
 const GridCount_X = 13
-const GridCount_Y = 12
+const GridCount_Y = 14
 
 var invader_scene = preload("res://invader.tscn")
 var bullet_scene = preload("res://bullet.tscn")
@@ -31,27 +31,27 @@ func _ready() -> void:
 	$Fighter.ended.connect(fighter_explode)
 	$UFO.ended.connect(UFO_explode)
 
-var stage := 0
-var score := 0
-var fighter_dead := 0
+var stage : int
+var score : int
+var fighter_dead : int
 var game_playing: bool
 
 # limit fighter bullet count, rate
 var last_fighter_bullet_fire_time : float # get_unix_time_from_system()
 var current_fighter_bullet_count :int
 
-var current_moving_invader_num := 0
-var invader_move_dir_order := 0
+var current_moving_invader_num : int
+var invader_move_dir_order : int
 var invader_need_change_dir :bool
-var alive_invader_count := 0
+var alive_invader_count : int
 
-var automove_fighter :bool = true
+var automove_fighter :bool
 var fighter_mv_vt :Vector2
 
 func new_game() -> void:
 	score = 0
 	fighter_dead = 0
-	stage = 0
+	stage = 1
 	ui_data_changed.emit()
 	clear_bullets()
 	$Fighter.position = calc_grid_position(1,GridCount_Y-1)
