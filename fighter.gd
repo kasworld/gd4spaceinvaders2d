@@ -3,8 +3,11 @@ class_name Fighter
 
 signal ended(o :Fighter)
 
-const BulletCountLimit = 2
-const BulletNextFireSec = 0.3
+#const BulletCountLimit = 2
+#const BulletNextFireSec = 0.3
+
+const BulletCountLimit = 200
+const BulletNextFireSec = 0.03
 
 var valid :bool
 func init() -> Fighter:

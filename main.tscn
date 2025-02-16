@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://main.gd" id="1_8or64"]
 [ext_resource type="PackedScene" uid="uid://dgjqdwxpxrmjb" path="res://game.tscn" id="2_ucbkd"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_ksp6n"]
-font_size = 40
+[sub_resource type="LabelSettings" id="LabelSettings_felt8"]
+font_size = 48
 
 [sub_resource type="LabelSettings" id="LabelSettings_th3hu"]
 font_size = 48
@@ -33,10 +33,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 2
 
-[node name="Title" type="Label" parent="UI"]
+[node name="HighScore" type="Label" parent="UI"]
 layout_mode = 2
-text = "Space Invaders by Godot4"
-label_settings = SubResource("LabelSettings_ksp6n")
+label_settings = SubResource("LabelSettings_felt8")
 
 [node name="GameCount" type="Label" parent="UI"]
 layout_mode = 2

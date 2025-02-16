@@ -1,7 +1,7 @@
 extends Node2D
 
 var game_count := 0
-
+var high_score := 0
 func _ready() -> void:
 	var vp_size = get_viewport_rect().size
 	var gamefield_size = Vector2(vp_size.x*0.7,vp_size.y)
@@ -18,10 +18,13 @@ func start_game() -> void:
 	$Game.new_game()
 
 func update_ui_data() -> void:
+	if $Game.score > high_score:
+		high_score = $Game.score
+	$UI/HighScore.text = "High Score %d" % high_score
+	$UI/GameCount.text = "Game #%d" % game_count
+	$UI/Stage.text = "Stage %d" % $Game.stage
 	$UI/Score.text = "Score %d" % $Game.score
 	$UI/Fighter.text = "Fighter dead %d" % $Game.fighter_dead
-	$UI/Stage.text = "Stage %d" % $Game.stage
-	$UI/GameCount.text = "Game #%d" % game_count
 
 # esc to exit
 func _unhandled_input(event: InputEvent) -> void:

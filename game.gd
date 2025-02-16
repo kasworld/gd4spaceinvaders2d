@@ -90,11 +90,15 @@ func init_invader() -> void:
 		Invader.Type.Invader2,
 		Invader.Type.Invader1,
 		Invader.Type.Invader1 ]
+	var stage_y_inc = stage * Invader.get_move_vector(Invader.MoveDir.Down).y
+	if stage_y_inc > calc_grid_position(0,GridCount_Y-i_type.size()-2).y:
+		stage_y_inc = calc_grid_position(0,GridCount_Y-i_type.size()-4).y
 	for j in i_type.size():
 		for i in InvaderCount_X:
 			var o = invader_scene.instantiate().init(i_type[j])
 			$Invaders.add_child(o)
 			o.position = calc_grid_position(i+1,j+2)
+			o.position.y += stage_y_inc
 			o.ended.connect(invader_explode)
 	alive_invader_count = 5*InvaderCount_X
 
@@ -159,7 +163,7 @@ func fighter_auto() -> void:
 			fighter_mv_vt = Vector2(0,0)
 		20,21,22,23,24:
 			fighter_mv_vt = Vector2(6,0)
-		30:
+		30,31,32,33,34,35:
 			add_fighter_bullet()
 
 func move_invaders() -> void:
