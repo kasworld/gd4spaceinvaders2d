@@ -35,7 +35,7 @@ func start_game(demo_mode:bool) -> void:
 	current_game.start_game()
 
 func update_ui_data() -> void:
-	if current_game.score > high_score:
+	if not current_game.demo_mode and current_game.score > high_score:
 		high_score = current_game.score
 	$UI/HighScore.text = "High Score %d" % high_score
 	$UI/GameCount.text = "Game #%d" % game_count
