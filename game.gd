@@ -48,6 +48,7 @@ var demo_mode :bool
 var fighter_mv_vt :Vector2
 
 func start_game() -> void:
+	$Panel.visible = demo_mode
 	score = 0
 	fighter_dead = 0
 	stage = 1
