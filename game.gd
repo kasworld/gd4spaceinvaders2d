@@ -25,8 +25,10 @@ func _ready() -> void:
 	$Fighter.ended.connect(fighter_explode)
 	$UFO.ended.connect(UFO_explode)
 	var inv_area = calc_invader_move_area()
-	$Panel.position = inv_area.position
-	$Panel.size = inv_area.size
+	$InvaderMoveArea.position = inv_area.position
+	$InvaderMoveArea.size = inv_area.size
+	$GameOver.position = size/2 - $GameOver.size/2
+
 
 var TotalInvaderCount = Settings.InvaderCount_X * Settings.InvaderRows.size()
 
@@ -48,7 +50,8 @@ var demo_mode :bool
 var fighter_mv_vt :Vector2
 
 func start_game() -> void:
-	$Panel.visible = demo_mode
+	$InvaderMoveArea.visible = demo_mode
+	$GameOver.visible = false
 	score = 0
 	fighter_dead = 0
 	stage = 1
@@ -61,6 +64,10 @@ func start_game() -> void:
 
 func game_end() -> void:
 	game_playing = false
+	$GameOver.visible = true
+	$TimerGameOver.start(1)
+
+func _on_timer_game_over_timeout() -> void:
 	game_ended.emit()
 
 func next_stage() -> void:

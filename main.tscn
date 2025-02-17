@@ -79,7 +79,7 @@ vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="PanelContainer/Opening"]
 layout_mode = 2
-text = "press any key to start"
+text = "press space to start"
 label_settings = SubResource("LabelSettings_yd5ny")
 horizontal_alignment = 1
 vertical_alignment = 1

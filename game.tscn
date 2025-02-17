@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dgjqdwxpxrmjb"]
+[gd_scene load_steps=8 format=3 uid="uid://dgjqdwxpxrmjb"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_ecfbe"]
 [ext_resource type="PackedScene" uid="uid://cwbcb8kpfjdoy" path="res://ufo.tscn" id="2_b52um"]
@@ -9,13 +9,18 @@ bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yjaho"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0144i"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mt3h8"]
+font_size = 48
+
 [node name="Game" type="Panel"]
 clip_contents = true
 focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_n4vf6")
 script = ExtResource("1_ecfbe")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="InvaderMoveArea" type="Panel" parent="."]
 self_modulate = Color(1, 1, 1, 0.45098)
 layout_mode = 0
 offset_right = 40.0
@@ -33,3 +38,21 @@ visible = false
 [node name="Fighter" parent="." instance=ExtResource("3_44l4a")]
 
 [node name="Invaders" type="Node2D" parent="."]
+
+[node name="GameOver" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 261.0
+offset_bottom = 67.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_0144i")
+
+[node name="Label" type="Label" parent="GameOver"]
+layout_mode = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_mt3h8")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerGameOver" type="Timer" parent="."]
+
+[connection signal="timeout" from="TimerGameOver" to="." method="_on_timer_game_over_timeout"]
