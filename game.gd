@@ -24,6 +24,9 @@ func _ready() -> void:
 	$Fighter.init()
 	$Fighter.ended.connect(fighter_explode)
 	$UFO.ended.connect(UFO_explode)
+	var inv_area = calc_invader_move_area()
+	$Panel.position = inv_area.position
+	$Panel.size = inv_area.size
 
 var stage : int
 var score : int
@@ -76,7 +79,7 @@ func init_invader() -> void:
 	current_moving_invader_num = 0
 	invader_move_dir_order = 0
 	invader_need_change_dir = false
-	Invader.set_move_vector(Vector2(20,20))
+	Invader.set_move_vector(Vector2(36,48))
 
 	var stage_y_inc = stage * Invader.get_move_vector(Settings.MoveDir.Down).y
 	if stage_y_inc > calc_grid_position(0,Settings.Grid_Y-Settings.InvaderRows.size()-2).y:
