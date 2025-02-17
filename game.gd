@@ -39,10 +39,10 @@ var invader_move_dir_order : int
 var invader_need_change_dir :bool
 var alive_invader_count : int
 
-var automove_fighter :bool
+var demo_mode :bool
 var fighter_mv_vt :Vector2
 
-func new_game() -> void:
+func start_game() -> void:
 	score = 0
 	fighter_dead = 0
 	stage = 1
@@ -140,12 +140,12 @@ func _process(_delta: float) -> void:
 		new_UFO()
 	move_bullets()
 	move_invaders()
-	if automove_fighter:
+	if demo_mode:
 		fighter_auto()
 	move_fighter()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not game_playing or automove_fighter:
+	if not game_playing or demo_mode:
 		return
 	if event is InputEventKey and event.is_pressed():
 		if event.keycode == KEY_SPACE:
@@ -159,6 +159,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			fighter_mv_vt = Vector2(0,0)
 		elif event.keycode == KEY_RIGHT:
 			fighter_mv_vt = Vector2(0,0)
+
+
 
 func fighter_auto() -> void:
 	if not $Fighter.valid:

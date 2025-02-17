@@ -12,10 +12,13 @@ func _ready() -> void:
 	$UI.position = Vector2(game_size.x,0)
 	$UI.size = Vector2(vp_size.x - game_size.x, vp_size.y)
 	$PanelContainer.position = vp_size/2 - $PanelContainer.size /2
+	start_demo()
 
-	start_game()
+func start_demo() -> void:
+	$PanelContainer.show()
+	start_game(true)
 
-func start_game() -> void:
+func start_game(demo_mode:bool) -> void:
 	if current_game != null:
 		current_game.queue_free()
 		remove_child(current_game)
@@ -25,13 +28,11 @@ func start_game() -> void:
 	current_game.position = Vector2(0,0)
 	current_game.size = game_size
 	current_game.ui_data_changed.connect(update_ui_data)
-	current_game.game_ended.connect(start_game)
-	current_game.automove_fighter = true
+	current_game.game_ended.connect(start_demo)
+	current_game.demo_mode = demo_mode
 	add_child(current_game)
-
 	game_count +=1
-	current_game.new_game()
-
+	current_game.start_game()
 
 func update_ui_data() -> void:
 	if current_game.score > high_score:
@@ -45,19 +46,9 @@ func update_ui_data() -> void:
 # esc to exit
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():
-		#if current_game.automove_fighter:
-			#$PanelContainer.hide()
-			#current_game.automove_fighter = false
-			#start_game.call_deferred()
 		if event.keycode == KEY_ESCAPE:
 			get_tree().quit()
-		elif event.keycode == KEY_ENTER:
-			_on_demo_mode_pressed()
-
-func _on_demo_mode_pressed() -> void:
-	current_game.automove_fighter = not current_game.automove_fighter
-	if current_game.automove_fighter:
-		$UI/DemoMode.text = "Auto control"
-	else :
-		$UI/DemoMode.text = "Key control"
-	current_game.grab_focus.call_deferred()
+		else:
+			if $PanelContainer.visible:
+				$PanelContainer.hide()
+				start_game(false)

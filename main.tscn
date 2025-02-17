@@ -58,14 +58,8 @@ label_settings = SubResource("LabelSettings_4ggli")
 layout_mode = 2
 label_settings = SubResource("LabelSettings_4doqw")
 
-[node name="DemoMode" type="Button" parent="UI"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 48
-text = "DemoMode
-"
-
 [node name="PanelContainer" type="PanelContainer" parent="."]
-visible = false
+z_index = 1
 offset_right = 40.0
 offset_bottom = 40.0
 size_flags_horizontal = 3
@@ -88,5 +82,3 @@ text = "press any key to start"
 label_settings = SubResource("LabelSettings_yd5ny")
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[connection signal="pressed" from="UI/DemoMode" to="." method="_on_demo_mode_pressed"]
