@@ -28,6 +28,8 @@ func _ready() -> void:
 	$Panel.position = inv_area.position
 	$Panel.size = inv_area.size
 
+var TotalInvaderCount = Settings.InvaderCount_X * Settings.InvaderRows.size()
+
 var stage : int
 var score : int
 var fighter_dead : int
@@ -76,7 +78,6 @@ func clear_bullets() -> void:
 func init_invader() -> void:
 	for o in $Invaders.get_children():
 		o.queue_free()
-	current_moving_invader_num = 0
 	invader_move_dir_order = 0
 	invader_need_change_dir = false
 	Invader.set_move_vector(Vector2(36,48))
@@ -92,6 +93,7 @@ func init_invader() -> void:
 			o.position.y += stage_y_inc
 			o.ended.connect(invader_explode)
 	alive_invader_count = 5*Settings.InvaderCount_X
+	current_moving_invader_num = TotalInvaderCount -1
 
 func invader_explode(inv :Invader) -> void:
 	score += inv.get_score()
@@ -163,8 +165,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.keycode == KEY_RIGHT:
 			fighter_mv_vt = Vector2(0,0)
 
-
-
 func fighter_auto() -> void:
 	if not $Fighter.valid:
 		return
@@ -201,10 +201,10 @@ func move_invaders() -> void:
 	invader_move_dir_next()
 
 func invader_move_dir_next() -> bool:
-	current_moving_invader_num += 1
+	current_moving_invader_num -= 1
 	var move_dir = Settings.invader_move_dir_order[invader_move_dir_order]
-	if current_moving_invader_num >= $Invaders.get_child_count():
-		current_moving_invader_num = 0
+	if current_moving_invader_num < 0:
+		current_moving_invader_num = TotalInvaderCount -1
 		# change move vector
 		if move_dir == Settings.MoveDir.Down or invader_need_change_dir:
 			invader_move_dir_order +=1

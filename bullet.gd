@@ -9,7 +9,7 @@ var move_vt = [
 	Vector2(0,6),
 	Vector2(0,7),
 	Vector2(0,8),
-	Vector2(0,-6),
+	Vector2(0,-8),
 ]
 var bullet_type : Type
 
