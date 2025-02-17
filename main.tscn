@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://vndwtwcsdgv"]
+[gd_scene load_steps=10 format=3 uid="uid://vndwtwcsdgv"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_8or64"]
-[ext_resource type="PackedScene" uid="uid://dgjqdwxpxrmjb" path="res://game.tscn" id="2_ucbkd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_felt8"]
 font_size = 48
@@ -28,8 +27,6 @@ font_size = 48
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_8or64")
-
-[node name="Game" parent="." instance=ExtResource("2_ucbkd")]
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
