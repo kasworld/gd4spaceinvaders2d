@@ -144,6 +144,22 @@ func _process(_delta: float) -> void:
 		fighter_auto()
 	move_fighter()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not game_playing or automove_fighter:
+		return
+	if event is InputEventKey and event.is_pressed():
+		if event.keycode == KEY_SPACE:
+			add_fighter_bullet()
+		elif event.keycode == KEY_LEFT:
+			fighter_mv_vt = Vector2(-6,0)
+		elif event.keycode == KEY_RIGHT:
+			fighter_mv_vt = Vector2(6,0)
+	if event is InputEventKey and event.is_released():
+		if event.keycode == KEY_LEFT:
+			fighter_mv_vt = Vector2(0,0)
+		elif event.keycode == KEY_RIGHT:
+			fighter_mv_vt = Vector2(0,0)
+
 func fighter_auto() -> void:
 	if not $Fighter.valid:
 		return
@@ -230,20 +246,6 @@ func move_UFO() -> void:
 	elif randi_range(0, 100) == 0:
 		new_bullet(Bullet.Type.UFO, $UFO.position ).set_color($UFO.get_color())
 
-# esc to exit
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.is_pressed():
-		if event.keycode == KEY_SPACE:
-			add_fighter_bullet()
-		elif event.keycode == KEY_LEFT:
-			fighter_mv_vt = Vector2(-6,0)
-		elif event.keycode == KEY_RIGHT:
-			fighter_mv_vt = Vector2(6,0)
-	if event is InputEventKey and event.is_released():
-		if event.keycode == KEY_LEFT:
-			fighter_mv_vt = Vector2(0,0)
-		elif event.keycode == KEY_RIGHT:
-			fighter_mv_vt = Vector2(0,0)
 
 func move_fighter() -> void:
 	if not $Fighter.valid:
