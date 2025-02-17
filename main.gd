@@ -12,6 +12,7 @@ func _ready() -> void:
 	$Game.ui_data_changed.connect(update_ui_data)
 	$Game.game_ended.connect(start_game)
 	$Game.automove_fighter = true
+	$PanelContainer.position = vp_size/2 - $PanelContainer.size /2
 	start_game()
 
 func start_game() -> void:
@@ -30,6 +31,10 @@ func update_ui_data() -> void:
 # esc to exit
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():
+		#if $Game.automove_fighter:
+			#$PanelContainer.hide()
+			#$Game.automove_fighter = false
+			#start_game.call_deferred()
 		if event.keycode == KEY_ESCAPE:
 			get_tree().quit()
 		elif event.keycode == KEY_ENTER:

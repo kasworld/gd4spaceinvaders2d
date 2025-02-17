@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://vndwtwcsdgv"]
+[gd_scene load_steps=11 format=3 uid="uid://vndwtwcsdgv"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_8or64"]
 [ext_resource type="PackedScene" uid="uid://dgjqdwxpxrmjb" path="res://game.tscn" id="2_ucbkd"]
@@ -16,6 +16,14 @@ font_size = 48
 font_size = 48
 
 [sub_resource type="LabelSettings" id="LabelSettings_4doqw"]
+font_size = 48
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i8qk0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_a18gk"]
+font_size = 96
+
+[sub_resource type="LabelSettings" id="LabelSettings_yd5ny"]
 font_size = 48
 
 [node name="Main" type="Node2D"]
@@ -58,5 +66,30 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "DemoMode
 "
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_i8qk0")
+
+[node name="Opening" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/Opening"]
+layout_mode = 2
+text = "Demo Mode"
+label_settings = SubResource("LabelSettings_a18gk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/Opening"]
+layout_mode = 2
+text = "press any key to start"
+label_settings = SubResource("LabelSettings_yd5ny")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="UI/DemoMode" to="." method="_on_demo_mode_pressed"]
