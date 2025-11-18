@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://vndwtwcsdgv"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_8or64"]
+[ext_resource type="Script" uid="uid://2dilqtune2be" path="res://main.gd" id="1_8or64"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_felt8"]
 font_size = 48
