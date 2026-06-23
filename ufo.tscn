@@ -1,24 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://cwbcb8kpfjdoy"]
+[gd_scene format=3 uid="uid://cwbcb8kpfjdoy"]
 
-[ext_resource type="Script" path="res://ufo.gd" id="1_ktv13"]
+[ext_resource type="Script" uid="uid://cg5wd4u8vpajf" path="res://ufo.gd" id="1_ktv13"]
 [ext_resource type="Texture2D" uid="uid://d4e8bwcy3dy0a" path="res://assets/ufo.png" id="2_fse7a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_53qvv"]
 
-[node name="UFO" type="Area2D"]
+[node name="UFO" type="Area2D" unique_id=1508327376]
 collision_layer = 4
 collision_mask = 8
 script = ExtResource("1_ktv13")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1514796211]
 scale = Vector2(2, 2)
 texture = ExtResource("2_fse7a")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=2056680836]
 wait_time = 0.1
 autostart = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=224816296]
 shape = SubResource("RectangleShape2D_53qvv")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

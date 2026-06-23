@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://vndwtwcsdgv"]
+[gd_scene format=3 uid="uid://vndwtwcsdgv"]
 
 [ext_resource type="Script" uid="uid://2dilqtune2be" path="res://main.gd" id="1_8or64"]
 
@@ -25,40 +25,40 @@ font_size = 96
 [sub_resource type="LabelSettings" id="LabelSettings_yd5ny"]
 font_size = 48
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" unique_id=419250175]
 script = ExtResource("1_8or64")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1339633610]
 autostart = true
 
-[node name="UI" type="VBoxContainer" parent="."]
+[node name="UI" type="VBoxContainer" parent="." unique_id=501227472]
 offset_right = 499.0
 offset_bottom = 259.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 2
 
-[node name="HighScore" type="Label" parent="UI"]
+[node name="HighScore" type="Label" parent="UI" unique_id=922720291]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_felt8")
 
-[node name="GameCount" type="Label" parent="UI"]
+[node name="GameCount" type="Label" parent="UI" unique_id=1322354076]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_th3hu")
 
-[node name="Stage" type="Label" parent="UI"]
+[node name="Stage" type="Label" parent="UI" unique_id=918958116]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_364tu")
 
-[node name="Score" type="Label" parent="UI"]
+[node name="Score" type="Label" parent="UI" unique_id=973027654]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_4ggli")
 
-[node name="Fighter" type="Label" parent="UI"]
+[node name="Fighter" type="Label" parent="UI" unique_id=858355146]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_4doqw")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=815922513]
 self_modulate = Color(1, 1, 1, 0.509804)
 z_index = 1
 offset_right = 40.0
@@ -67,17 +67,17 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_i8qk0")
 
-[node name="Opening" type="VBoxContainer" parent="PanelContainer"]
+[node name="Opening" type="VBoxContainer" parent="PanelContainer" unique_id=1343931873]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="PanelContainer/Opening"]
+[node name="Label" type="Label" parent="PanelContainer/Opening" unique_id=220588612]
 layout_mode = 2
 text = "Demo Mode"
 label_settings = SubResource("LabelSettings_a18gk")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="PanelContainer/Opening"]
+[node name="Label2" type="Label" parent="PanelContainer/Opening" unique_id=1388218612]
 layout_mode = 2
 text = "press space to start"
 label_settings = SubResource("LabelSettings_yd5ny")

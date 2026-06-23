@@ -28,7 +28,7 @@ func next_frame() -> void:
 	pass
 
 func _on_timer_timeout() -> void:
-	set_color(NamedColorList.color_list.pick_random()[0])
+	set_color(NamedColors.random_color())
 
 func _on_area_entered(_area: Area2D) -> void:
 	ended.emit(self)

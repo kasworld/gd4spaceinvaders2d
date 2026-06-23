@@ -58,7 +58,7 @@ func get_score() -> int:
 
 func next_frame() -> void:
 	$AnimatedSprite2D.frame = ($AnimatedSprite2D.frame +1) % $AnimatedSprite2D.sprite_frames.get_frame_count("default")
-	set_color(NamedColorList.color_list.pick_random()[0])
+	set_color(NamedColors.random_color())
 
 func _on_timer_timeout() -> void:
 	next_frame()

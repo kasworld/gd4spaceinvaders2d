@@ -1,24 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://doco76o0vtsxu"]
+[gd_scene format=3 uid="uid://doco76o0vtsxu"]
 
-[ext_resource type="Script" path="res://fighter.gd" id="1_v3n07"]
+[ext_resource type="Script" uid="uid://bxkin2a7n8wu6" path="res://fighter.gd" id="1_v3n07"]
 [ext_resource type="Texture2D" uid="uid://bf2rbx3ifsokl" path="res://assets/fighter.png" id="2_o2wae"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jayjy"]
 
-[node name="Fighter" type="Area2D"]
+[node name="Fighter" type="Area2D" unique_id=690617707]
 collision_layer = 2
 collision_mask = 16
 script = ExtResource("1_v3n07")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=9702080]
 scale = Vector2(2, 2)
 texture = ExtResource("2_o2wae")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1383355632]
 wait_time = 0.5
 autostart = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2059206085]
 shape = SubResource("RectangleShape2D_jayjy")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
